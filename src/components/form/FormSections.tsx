@@ -335,31 +335,23 @@ export function FormSections() {
             />
           </div>
           
-          {/* Aduana de Partida - FIJO Chile - Iquique */}
+          {/* CAMPO 7: Aduana de Partida - FIJO Chile - Iquique */}
           <div className="md:col-span-2 p-4 rounded-lg bg-muted/50 border">
             <div className="flex items-center gap-2 mb-3">
               <Lock className="w-4 h-4 text-muted-foreground" />
-              <Label className="font-medium">Aduana de Partida (Fijo)</Label>
+              <Label className="font-medium">Campo 7: Aduana de Partida (Fijo - No Editable)</Label>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-xs text-muted-foreground">Descripción</Label>
-                <Input
-                  value="Chile - Iquique"
-                  disabled
-                  className="font-medium bg-muted cursor-not-allowed"
-                />
+                <Label className="text-xs text-muted-foreground">Aduana, ciudad y país de partida</Label>
+                <Select disabled>
+                  <SelectTrigger className="bg-muted cursor-not-allowed">
+                    <SelectValue placeholder="Chile - Iquique" />
+                  </SelectTrigger>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label className="text-xs text-muted-foreground">Código</Label>
-                <Input
-                  value="CLIQQ"
-                  disabled
-                  className="font-mono bg-muted cursor-not-allowed"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-xs text-muted-foreground">Código Numérico</Label>
                 <Input
                   value="997"
                   disabled
@@ -369,12 +361,12 @@ export function FormSections() {
             </div>
           </div>
 
-          {/* Ciudad y País Destino Final - Dropdown + Código Manual */}
-          <div className="md:col-span-2 pt-4 border-t">
-            <h4 className="font-medium mb-4">Ciudad y País Destino Final</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* CAMPO 8: Ciudad y País Destino Final - OBLIGATORIO */}
+          <div className="md:col-span-2 p-4 rounded-lg border border-primary/20 bg-primary/5">
+            <h4 className="font-medium mb-4">Campo 8: Ciudad y País de Destino Final</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Aduana de destino</Label>
+                <Label>Ciudad y país de destino final <span className="text-destructive">*</span></Label>
                 <Select
                   value={formData.ciudadDestinoCodigo}
                   onValueChange={(value) => {
@@ -398,16 +390,7 @@ export function FormSections() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label className="text-xs text-muted-foreground">Código (5 letras)</Label>
-                <Input
-                  value={formData.ciudadDestinoCodigo}
-                  disabled
-                  className="font-mono bg-muted cursor-not-allowed"
-                  placeholder="Auto-asignado"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="ciudadDestinoCodigoNumerico">Código Numérico (Manual)</Label>
+                <Label htmlFor="ciudadDestinoCodigoNumerico">Código <span className="text-destructive">*</span></Label>
                 <Input
                   id="ciudadDestinoCodigoNumerico"
                   value={formData.ciudadDestinoCodigoNumerico}
@@ -418,33 +401,30 @@ export function FormSections() {
                   className="font-mono"
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="depositoFiscalNombre">Nombre depósito fiscal</Label>
+                <Input
+                  id="depositoFiscalNombre"
+                  value={formData.depositoFiscalNombre}
+                  onChange={(e) =>
+                    updateFormData({ depositoFiscalNombre: e.target.value })
+                  }
+                  placeholder="Opcional"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="depositoFiscalCodigo">Código depósito fiscal</Label>
+                <Input
+                  id="depositoFiscalCodigo"
+                  value={formData.depositoFiscalCodigo}
+                  onChange={(e) =>
+                    updateFormData({ depositoFiscalCodigo: e.target.value })
+                  }
+                  className="font-mono"
+                  placeholder="Opcional"
+                />
+              </div>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="depositoFiscalNombre">
-              Nombre depósito fiscal
-            </Label>
-            <Input
-              id="depositoFiscalNombre"
-              value={formData.depositoFiscalNombre}
-              onChange={(e) =>
-                updateFormData({ depositoFiscalNombre: e.target.value })
-              }
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="depositoFiscalCodigo">
-              Código depósito fiscal
-            </Label>
-            <Input
-              id="depositoFiscalCodigo"
-              value={formData.depositoFiscalCodigo}
-              onChange={(e) =>
-                updateFormData({ depositoFiscalCodigo: e.target.value })
-              }
-              className="font-mono"
-            />
           </div>
         </div>
       </SectionCard>
@@ -716,12 +696,12 @@ export function FormSections() {
             </RadioGroup>
           </div>
           
-          {/* Aduana de Destino - Dropdown + Código Manual */}
-          <div className="md:col-span-2 pt-4 border-t">
-            <h4 className="font-medium mb-4">Aduana de Destino</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* CAMPO 24: Aduana de Destino - OBLIGATORIO */}
+          <div className="md:col-span-2 p-4 rounded-lg border border-primary/20 bg-primary/5">
+            <h4 className="font-medium mb-4">Campo 24: Aduana de Destino</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Seleccionar aduana</Label>
+                <Label>Aduana de destino <span className="text-destructive">*</span></Label>
                 <Select
                   value={formData.aduanaDestinoCodigo}
                   onValueChange={(value) => {
@@ -745,16 +725,7 @@ export function FormSections() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label className="text-xs text-muted-foreground">Código (5 letras)</Label>
-                <Input
-                  value={formData.aduanaDestinoCodigo}
-                  disabled
-                  className="font-mono bg-muted cursor-not-allowed"
-                  placeholder="Auto-asignado"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="aduanaDestinoCodigoNumerico">Código Numérico (Manual)</Label>
+                <Label htmlFor="aduanaDestinoCodigoNumerico">Código <span className="text-destructive">*</span></Label>
                 <Input
                   id="aduanaDestinoCodigoNumerico"
                   value={formData.aduanaDestinoCodigoNumerico}
@@ -765,37 +736,34 @@ export function FormSections() {
                   className="font-mono"
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="aduanaDestinoDepositoNombre">Nombre depósito fiscal</Label>
+                <Input
+                  id="aduanaDestinoDepositoNombre"
+                  value={formData.aduanaDestinoDepositoNombre}
+                  onChange={(e) =>
+                    updateFormData({
+                      aduanaDestinoDepositoNombre: e.target.value,
+                    })
+                  }
+                  placeholder="Opcional"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="aduanaDestinoDepositoCodigo">Código depósito fiscal</Label>
+                <Input
+                  id="aduanaDestinoDepositoCodigo"
+                  value={formData.aduanaDestinoDepositoCodigo}
+                  onChange={(e) =>
+                    updateFormData({
+                      aduanaDestinoDepositoCodigo: e.target.value,
+                    })
+                  }
+                  className="font-mono"
+                  placeholder="Opcional"
+                />
+              </div>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="aduanaDestinoDepositoNombre">
-              Nombre depósito fiscal
-            </Label>
-            <Input
-              id="aduanaDestinoDepositoNombre"
-              value={formData.aduanaDestinoDepositoNombre}
-              onChange={(e) =>
-                updateFormData({
-                  aduanaDestinoDepositoNombre: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="aduanaDestinoDepositoCodigo">
-              Código depósito fiscal
-            </Label>
-            <Input
-              id="aduanaDestinoDepositoCodigo"
-              value={formData.aduanaDestinoDepositoCodigo}
-              onChange={(e) =>
-                updateFormData({
-                  aduanaDestinoDepositoCodigo: e.target.value,
-                })
-              }
-              className="font-mono"
-            />
           </div>
         </div>
       </SectionCard>
