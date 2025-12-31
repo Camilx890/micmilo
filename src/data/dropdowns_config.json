@@ -71,6 +71,15 @@
       { "value": "11", "label": "TUBOS", "codigo": "11" }
     ],
     
+    "aduanas_chile": [
+      { 
+        "codigo": "CLIQQ", 
+        "descripcion": "Chile - Iquique",
+        "codigo_numerico": "997",
+        "nombre_locacion": "ADO"
+      }
+    ],
+    
     "aduanas_bolivia": [
       { "codigo": "BOBLA", "descripcion": "Bolivia - APACHETA" },
       { "codigo": "BOAPB", "descripcion": "Bolivia - Apolo" },
@@ -111,7 +120,7 @@
       { "codigo": "BOSJV", "descripcion": "Bolivia - San Javier" },
       { "codigo": "BOSJB", "descripcion": "Bolivia - San Joaquín" },
       { "codigo": "BOSJS", "descripcion": "Bolivia - San José" },
-      { "codigo": "BOMQK", "descripcion": "Bolivia - San Matias" },
+      { "codigo": "MOMQK", "descripcion": "Bolivia - San Matias" },
       { "codigo": "BOSRD", "descripcion": "Bolivia - San Ramón" },
       { "codigo": "BOSBL", "descripcion": "Bolivia - Santa Ana" },
       { "codigo": "BOSRZ", "descripcion": "Bolivia - Santa Cruz" },

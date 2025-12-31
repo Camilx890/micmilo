@@ -71,10 +71,13 @@ export interface FormData {
   // Fechas y locaciones
   hojaFolha: string;
   fechaEmision: string;
-  aduanaPartidaCodigo: string;
-  aduanaPartidaDescripcion: string;
+  // Aduana de partida - FIJO: Chile - Iquique
+  aduanaPartidaCodigo: string; // CLIQQ
+  aduanaPartidaDescripcion: string; // Chile - Iquique
+  aduanaPartidaCodigoNumerico: string; // 997
   ciudadDestinoFinal: string;
   ciudadDestinoCodigo: string;
+  ciudadDestinoCodigoNumerico: string; // Manual input
   depositoFiscalNombre: string;
   depositoFiscalCodigo: string;
   
@@ -101,6 +104,7 @@ export interface FormData {
   numeroCartaPorte: string;
   aduanaDestinoCodigo: string;
   aduanaDestinoDescripcion: string;
+  aduanaDestinoCodigoNumerico: string; // Manual input
   aduanaDestinoDepositoNombre: string;
   aduanaDestinoDepositoCodigo: string;
   esParcial: string;
@@ -200,10 +204,13 @@ const initialFormData: FormData = {
   contenedor2: '',
   hojaFolha: '1/1',
   fechaEmision: new Date().toISOString().split('T')[0],
-  aduanaPartidaCodigo: '',
-  aduanaPartidaDescripcion: '',
+  // Aduana de partida - FIJO: Chile - Iquique
+  aduanaPartidaCodigo: 'CLIQQ',
+  aduanaPartidaDescripcion: 'Chile - Iquique',
+  aduanaPartidaCodigoNumerico: '997',
   ciudadDestinoFinal: '',
   ciudadDestinoCodigo: '',
+  ciudadDestinoCodigoNumerico: '',
   depositoFiscalNombre: '',
   depositoFiscalCodigo: '',
   propietarioNombre: '',
@@ -224,6 +231,7 @@ const initialFormData: FormData = {
   numeroCartaPorte: '',
   aduanaDestinoCodigo: '',
   aduanaDestinoDescripcion: '',
+  aduanaDestinoCodigoNumerico: '',
   aduanaDestinoDepositoNombre: '',
   aduanaDestinoDepositoCodigo: '',
   esParcial: 'Si',
