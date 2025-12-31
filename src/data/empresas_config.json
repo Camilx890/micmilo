@@ -1,0 +1,854 @@
+{
+  "metadata": {
+    "total_empresas": 29,
+    "cuentas": [
+      "ychallapal",
+      "CBMSPA"
+    ],
+    "fecha_creacion": "2025-12-31",
+    "descripcion": "Datos pre-llenados de las 29 empresas para el sistema MIC. Estos datos se auto-completan al seleccionar una empresa en el dropdown de Lovable."
+  },
+  "empresas": [
+    {
+      "id": "empresa_01",
+      "login": "ychallapal",
+      "nombre_display": "A-CIEN S.R.L.",
+      "campo_1_porteador": {
+        "nombre": "A-CIEN S.R.L.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE RENE CRESPO N°115, ZONA VILLA MODERNA, COCHABAMBA, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "187230027",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_02",
+      "login": "ychallapal",
+      "nombre_display": "ALIANZA PACO HERMANOS SRL",
+      "campo_1_porteador": {
+        "nombre": "ALIANZA PACO HERMANOS SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CASA MATRIZ ,AV.BOLIVIA  N°31,ZONA  NUEVOS HORIZONTES. LA PAZ - BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "290502028",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_03",
+      "login": "CBMSPA",
+      "nombre_display": "CBM SERVICIOS INTEGRALES SPA",
+      "campo_1_porteador": {
+        "nombre": "CBM SERVICIOS INTEGRALES SPA",
+        "pais": "CL",
+        "pais_nombre": "Chile",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV. LAS AMERICAS #3951, IQUIQUE, CHILE."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "RUT",
+        "valor_id": "76474162-5",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_04",
+      "login": "ychallapal",
+      "nombre_display": "COOP. DE TRANSPORTES FRONTERIZO KACHI LAGUNA R.L.",
+      "campo_1_porteador": {
+        "nombre": "COOP. DE TRANSPORTES FRONTERIZO KACHI LAGUNA R.L.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE COBIJA S/N SAN PEDRO DE QUEMES, POTOSI"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "383254023",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_05",
+      "login": "ychallapal",
+      "nombre_display": "EMPRESA DE TRANSPORTE LEADER LOGISTIC S.R.L.",
+      "campo_1_porteador": {
+        "nombre": "EMPRESA DE TRANSPORTE LEADER LOGISTIC S.R.L.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE LIBERTAD N.128 ZONA ALTO SAN JUAN , LA PAZ, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "286460026",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_06",
+      "login": "ychallapal",
+      "nombre_display": "EMPRESA DE TRANSPORTE NACIONAL E INTERNACIONAL POR CARRETERA UNIDOS 10 DE NOVIEMBRE LTDA.",
+      "campo_1_porteador": {
+        "nombre": "EMPRESA DE TRANSPORTE NACIONAL E INTERNACIONAL POR CARRETERA UNIDOS 10 DE NOVIEMBRE LTDA.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE MURILLO EDIF. CENTRO COMERCIAL PEATONAL, PISO 3, OF. 316,N°1028,ZONA CENTRAL."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "1016693029",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_07",
+      "login": "ychallapal",
+      "nombre_display": "ETI VACO SRL",
+      "campo_1_porteador": {
+        "nombre": "ETI VACO SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "Calle 4 Nro. 440, zona SANTIAGO SEGUNDO, LA PAZ BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "271072026",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_08",
+      "login": "ychallapal",
+      "nombre_display": "INPACKTO SRL",
+      "campo_1_porteador": {
+        "nombre": "INPACKTO SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "BARRIO PARAISO, CALLE LOS JARDINES N° 9060, SANTA CRUZ, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "2852274025",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_09",
+      "login": "ychallapal",
+      "nombre_display": "JIMBERTRANS SRL",
+      "campo_1_porteador": {
+        "nombre": "JIMBERTRANS SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE VICENTI Nº 508, LA PAZ, BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "129489023",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_10",
+      "login": "ychallapal",
+      "nombre_display": "KORI-KOTA R Y H TRANSPORTES SRL",
+      "campo_1_porteador": {
+        "nombre": "KORI-KOTA R Y H TRANSPORTES SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE CHOCOPIÑA N°31 ZONA PURGATORIO, ENTRE AV. ALVINA KM 15 Y CALLE INNOMINADA CAERA OESTE, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "268984027",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_11",
+      "login": "ychallapal",
+      "nombre_display": "MANUEL CORPUS CHALLAPA GARCIA",
+      "campo_1_porteador": {
+        "nombre": "MANUEL CORPUS CHALLAPA GARCIA",
+        "pais": "CL",
+        "pais_nombre": "Chile",
+        "comuna": "[Sin Información]",
+        "domicilio": "JUANITA FERNANDEZ N°3115, ALTO HOSPICIO, IQUIQUE"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "RUT",
+        "valor_id": "6214783-0",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_12",
+      "login": "ychallapal",
+      "nombre_display": "TERRALOG S.R.L",
+      "campo_1_porteador": {
+        "nombre": "TERRALOG S.R.L",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE RAFAEL BUSTILLOS ,EDIFICIO: LIRA ,PISO: 2 ,DEPARTAMENTO/LOCAUOFICINA: 2-C ,NRO: 1022 ZONA SOPOCACHI ,ENTRE CALLES ADOLFO GONZALES Y JAIME ZUDAÑEZ , LA PAZ"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "528696028",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_13",
+      "login": "ychallapal",
+      "nombre_display": "TOBYMAR TRANSPORT S.R.L.",
+      "campo_1_porteador": {
+        "nombre": "TOBYMAR TRANSPORT S.R.L.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "Av. Iilimani Nro. 73, Zona Nuevos Horizontes 111, El Ato, La Paz,Bolivia"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "464769024",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_14",
+      "login": "ychallapal",
+      "nombre_display": "TRANS CAPSAYA S.R.L",
+      "campo_1_porteador": {
+        "nombre": "TRANS CAPSAYA S.R.L",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE CANADA  N° 307 , ZONA  VALLE HERMOSO D14 M477"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "562299023",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_15",
+      "login": "ychallapal",
+      "nombre_display": "TRANS FORMANI SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANS FORMANI SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "Calle 6 Nro. 24, zona Santa Rosa, El Alto, La Paz, BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "290822020",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_16",
+      "login": "ychallapal",
+      "nombre_display": "TRANS GEDEON S.R.L.",
+      "campo_1_porteador": {
+        "nombre": "TRANS GEDEON S.R.L.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE N.4 N.4022 BARRIO GUARACHI UV.0140 MZA -006 AV.VIRGEN DE COTOCA C/4."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "312850023",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_17",
+      "login": "ychallapal",
+      "nombre_display": "TRANS RAYBEMIC S.R.L.",
+      "campo_1_porteador": {
+        "nombre": "TRANS RAYBEMIC S.R.L.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE ECUADOR N° 100, ZONA SUDOESTE, ORURO, BOLIVIA CIUDAD: LA PAZ - BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "434264024",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_18",
+      "login": "ychallapal",
+      "nombre_display": "TRANSKATALINA S.R.L.",
+      "campo_1_porteador": {
+        "nombre": "TRANSKATALINA S.R.L.",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV.MELCHOR PEREZ DE OLGUIN, NRO.262 ZONA HIPODROMO D12 M151, ENTRE CALLE LA MERCED Y AV.PEDRO SARMIENTO, COCHABAMBA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "398119023",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_19",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPAGADOR LTDA",
+      "campo_1_porteador": {
+        "nombre": "TRANSPAGADOR LTDA",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV HASIN-Z/V PAGADOR, DEPTO DE COCHABAMBA, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "402707026",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_20",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTADORA ROART SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTADORA ROART SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE URINZAYA S/N, ZONA EL PASO, COCHABAMBA, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "289720027",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_21",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTE INTERNACIONAL TAMARUGAL SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTE INTERNACIONAL TAMARUGAL SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV. CONFITAL S/N ZONA VINTO CHICO, COCHABAMBA BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "243710027",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_22",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL 2 DE SEPTIEMBRE SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL 2 DE SEPTIEMBRE SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV GUADALQUIVIR N°210 ZONA NUEVOS HORIZONTES, EL ALTO, LA PAZ, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "142141027",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_23",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL A&G SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL A&G SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV. COCHABAMBA N°2552, ZONA JULIANA, EL ALTO, LA PAZ, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "140297029",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_24",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL GSL SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL GSL SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE H1 N°274, ZONA NUEVOS HORIZONTES, LA PAZ, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "279138025",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_25",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL SORIANO LTDA",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL SORIANO LTDA",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE 24 DE JUNIO, ENTRE CALLE S/N Y CALLE S/N Nro. 003 URBANIZACION SANTA ROSA. LA PAZ-BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "1010437026",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_26",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTES 4 DE ABRIL SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTES 4 DE ABRIL SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE LARECAJA N° 2325, ZONA SANTISIMA TRINIDAD, EL ALTO, BOLIVIA."
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "486661022",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_27",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTES CUESTAS SRL",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTES CUESTAS SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE N° 3 ,1052 , ZONA VILLA SANTIAGO II LA PAZ - BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "153138021",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_28",
+      "login": "ychallapal",
+      "nombre_display": "UNICARGO SRL",
+      "campo_1_porteador": {
+        "nombre": "UNICARGO SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "OTRO CAMINO A CHARINCO ,NRO: S/N ZONA MACHAJMARCA ,A-NORTE. DEL PUENTE KORRA II AL NORTE POR CAMINO A MACHAJMARCA HASTA EL CAMINO CHARINCO DE AHI A 500 METRS AL OESTE, CASA PB FACHADA LADRILLO VISTO CON PORTON CAFE NUS 444993, VINTO"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "486370028",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_29",
+      "login": "ychallapal",
+      "nombre_display": "YANET CHALLAPA LOZANO",
+      "campo_1_porteador": {
+        "nombre": "YANET CHALLAPA LOZANO",
+        "pais": "CL",
+        "pais_nombre": "Chile",
+        "comuna": "[Sin Información]",
+        "domicilio": "AVDA LAS AMERICAS 951 AA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "RUT",
+        "valor_id": "12611532-6",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    }
+  ]
+}
