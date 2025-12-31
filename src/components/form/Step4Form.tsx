@@ -158,8 +158,13 @@ export function Step4Form() {
     setIsGenerating(true);
     setLoadingMessage("Generando XML...");
 
+    const backendUrl = 'http://72.60.13.178:8004/generate-xml';
+    
+    console.log('🚀 Llamando a backend:', backendUrl);
+    console.log('📦 Datos enviados:', JSON.stringify(xmlData, null, 2));
+
     try {
-      const response = await fetch('http://72.60.13.178:8004/generate-xml', {
+      const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -167,13 +172,18 @@ export function Step4Form() {
         body: JSON.stringify(xmlData)
       });
 
+      console.log('✅ Response status:', response.status);
+      console.log('📋 Response headers:', Object.fromEntries(response.headers.entries()));
+
       if (!response.ok) {
         const errorText = await response.text();
+        console.error('❌ Error response body:', errorText);
         throw new Error(errorText || 'Error al generar XML');
       }
 
       // 4. El backend retorna el archivo XML
       const blob = await response.blob();
+      console.log('📄 Blob recibido:', { size: blob.size, type: blob.type });
 
       // 5. Descargar automáticamente
       const url = window.URL.createObjectURL(blob);
@@ -185,10 +195,14 @@ export function Step4Form() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
+      console.log('✅ XML descargado exitosamente');
       toast.success('✅ XML generado correctamente');
 
     } catch (error) {
-      console.error('Error:', error);
+      console.error('❌ Error completo:', error);
+      console.error('❌ Error name:', error instanceof Error ? error.name : 'Unknown');
+      console.error('❌ Error message:', error instanceof Error ? error.message : String(error));
+      console.error('❌ Error stack:', error instanceof Error ? error.stack : 'No stack');
       toast.error('Error al generar XML: ' + (error instanceof Error ? error.message : 'Error desconocido'));
     } finally {
       setIsGenerating(false);
