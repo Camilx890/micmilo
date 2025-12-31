@@ -121,6 +121,25 @@ export function FormSections() {
             />
           </div>
 
+          {/* Campo Permiso-Resolución - EDITABLE */}
+          <div className="space-y-2 md:col-span-2">
+            <Label htmlFor="permisoResolucion">
+              Permiso, Resolución, Seguro y Vencimientos
+            </Label>
+            <Textarea
+              id="permisoResolucion"
+              placeholder="Ej: PERMISO. 8229/2025 VTO. 07/01/2026 SEGURO. RCT-LP0201-40032-0 VTO. 07/03/2026"
+              value={formData.permisoResolucion}
+              onChange={(e) =>
+                updateFormData({ permisoResolucion: e.target.value })
+              }
+              className="min-h-[80px] font-mono text-sm"
+            />
+            <p className="text-xs text-muted-foreground">
+              Este campo se pre-llena automáticamente si se subió el MIC Entrada
+            </p>
+          </div>
+
           <div className="md:col-span-2 pt-4 border-t">
             <h4 className="font-medium mb-4">Rol del Contribuyente</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

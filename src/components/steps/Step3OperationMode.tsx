@@ -31,6 +31,31 @@ export function Step3OperationMode() {
     return Math.floor(10000 + Math.random() * 90000).toString();
   };
 
+  // Build permiso-resolucion string from MIC Entrada data
+  const buildPermisoResolucion = (micData: any): string => {
+    if (!micData) {
+      return "PERMISO. 8229/2025 VTO. 07/01/2026 SEGURO. RCT-LP0201-40032-0 VTO. 07/03/2026";
+    }
+    
+    const parts: string[] = [];
+    
+    if (micData.permiso?.numero) {
+      parts.push(`PERMISO. ${micData.permiso.numero}`);
+      if (micData.permiso?.vencimiento) {
+        parts.push(`VTO. ${micData.permiso.vencimiento}`);
+      }
+    }
+    
+    if (micData.seguro?.numero) {
+      parts.push(`SEGURO. ${micData.seguro.numero}`);
+      if (micData.seguro?.vencimiento) {
+        parts.push(`VTO. ${micData.seguro.vencimiento}`);
+      }
+    }
+    
+    return parts.length > 0 ? parts.join(' ') : "";
+  };
+
   // Extract MIC Entrada data from n8n webhook
   const extractMICEntrada = async (file: File): Promise<any | null> => {
     const formData = new FormData();
@@ -142,9 +167,7 @@ export function Step3OperationMode() {
           numeroReferencia: numeroReferencia,
           // MIC Entrada data (if available)
           ...(micEntradaData && {
-            porteadorPermiso: micEntradaData.permiso?.numero || "",
-            porteadorVencimiento: micEntradaData.permiso?.vencimiento || "",
-            porteadorSeguro: micEntradaData.seguro?.numero || "",
+            permisoResolucion: buildPermisoResolucion(micEntradaData),
             propietarioNombre: micEntradaData.propietario?.nombre || "",
             propietarioDomicilio: micEntradaData.propietario?.direccion || "",
             propietarioRol: micEntradaData.propietario?.rol || "",
@@ -233,9 +256,7 @@ export function Step3OperationMode() {
           numeroReferencia: numeroReferencia,
           
           // MIC Entrada data (real if available, otherwise demo)
-          porteadorPermiso: micEntradaData?.permiso?.numero || "8229/2025",
-          porteadorVencimiento: micEntradaData?.permiso?.vencimiento || "07/01/2026",
-          porteadorSeguro: micEntradaData?.seguro?.numero || "RCT-LP0201-40032-0",
+          permisoResolucion: buildPermisoResolucion(micEntradaData),
           propietarioNombre: micEntradaData?.propietario?.nombre || "A-CIEN S.R.L.",
           propietarioDomicilio: micEntradaData?.propietario?.direccion || "VILLA MODERNA, RENE CRESPO, 115",
           propietarioRol: micEntradaData?.propietario?.rol || "187230027",
