@@ -60,6 +60,9 @@ export function Step3OperationMode() {
       if (data.success) {
         setExtractedData(data.data);
         
+        // Generate random 5-digit reference number
+        const numeroReferencia = Math.floor(10000 + Math.random() * 90000).toString();
+        
         // Pre-fill form with company data
         updateFormData({
           porteadorNombre: selectedEmpresa.campo_1_porteador.nombre,
@@ -73,6 +76,10 @@ export function Step3OperationMode() {
           tipoCarga: selectedEmpresa.datos_xml["tipo-carga"],
           tipoTransito: selectedEmpresa.datos_xml["tipo-transito"],
           moneda: selectedEmpresa.datos_xml.moneda,
+          // Número MIC vacío (generado por la aduana)
+          numeroMic: "",
+          // Número de referencia aleatorio de 5 dígitos
+          numeroReferencia: numeroReferencia,
         });
 
         toast({
@@ -96,11 +103,19 @@ export function Step3OperationMode() {
     }
   };
 
+  // Generate random 5-digit reference number
+  const generateRandomReference = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+  };
+
   // For demo without backend, simulate extraction
   const handleDemoExtract = () => {
     setIsExtracting(true);
     
     setTimeout(() => {
+      // Generate random 5-digit reference number
+      const numeroReferencia = generateRandomReference();
+      
       // Pre-fill form with company data
       if (selectedEmpresa) {
         updateFormData({
@@ -115,9 +130,11 @@ export function Step3OperationMode() {
           tipoCarga: selectedEmpresa.datos_xml["tipo-carga"],
           tipoTransito: selectedEmpresa.datos_xml["tipo-transito"],
           moneda: selectedEmpresa.datos_xml.moneda,
+          // Número MIC vacío (generado por la aduana)
+          numeroMic: "",
+          // Número de referencia aleatorio de 5 dígitos
+          numeroReferencia: numeroReferencia,
           // Demo data
-          numeroMic: "MIC-2025-001234",
-          numeroReferencia: "REF-2025-001234",
           contenedor1: "MSKU1234567",
           numeroCartaPorte: "CRT-2025-001234",
           cantidadBultos: "150",
@@ -137,7 +154,7 @@ export function Step3OperationMode() {
       
       toast({
         title: "Extracción simulada",
-        description: "Datos de demostración cargados correctamente",
+        description: `Datos cargados. Número de referencia: ${numeroReferencia}`,
       });
       
       setCurrentStep(4);
