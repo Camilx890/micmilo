@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE_URL = "http://72.60.13.178:8004";
+const API_BASE_URL = "https://corsproxy.io/?http://72.60.13.178:8004";
 
 export function FormSidebar() {
   const {
