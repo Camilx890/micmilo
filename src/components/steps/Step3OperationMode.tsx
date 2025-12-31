@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, Loader2, Zap, FileSearch, CheckCircle2, AlertCircle } from "lucide-react";
+import { ChevronLeft, Loader2, FileSearch, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,7 @@ import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 
 const API_BASE_URL = "http://72.60.13.178:8004";
+const N8N_WEBHOOK_URL = "https://n8n-n8n.qenbep.easypanel.host/webhook/extract-mic-entrada";
 
 export function Step3OperationMode() {
   const {
@@ -23,7 +24,44 @@ export function Step3OperationMode() {
     updateFormData,
   } = useMicStore();
   const { toast } = useToast();
+  const [loadingMessage, setLoadingMessage] = useState("");
 
+  // Generate random 5-digit reference number
+  const generateRandomReference = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+  };
+
+  // Extract MIC Entrada data from n8n webhook
+  const extractMICEntrada = async (file: File): Promise<any | null> => {
+    const formData = new FormData();
+    formData.append('file0', file);
+
+    try {
+      const response = await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        
+        // El webhook devuelve un array: [{success: true, data: {...}}]
+        if (Array.isArray(result) && result.length > 0) {
+          const item = result[0];
+          if (item.success) {
+            console.log('✓ Datos del MIC Entrada extraídos:', item.data);
+            return item.data;
+          }
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error('Error extrayendo MIC Entrada:', error);
+      return null;
+    }
+  };
+
+  // Main extraction handler with n8n webhook call
   const handleExtract = async () => {
     if (!crtFile || !selectedEmpresa) {
       toast({
@@ -37,22 +75,47 @@ export function Step3OperationMode() {
     setIsExtracting(true);
 
     try {
-      const formData = new FormData();
-      formData.append("crt_file", crtFile);
+      // 1. Extract MIC Entrada data from n8n webhook (if file exists)
+      let micEntradaData = null;
       if (micEntradaFile) {
-        formData.append("mic_entrada_file", micEntradaFile);
+        setLoadingMessage("Extrayendo datos del MIC Entrada...");
+        micEntradaData = await extractMICEntrada(micEntradaFile);
+        
+        if (micEntradaData) {
+          toast({
+            title: "MIC Entrada procesado",
+            description: "Datos del conductor y vehículo extraídos correctamente",
+          });
+        } else {
+          toast({
+            title: "Advertencia",
+            description: "No se pudieron extraer datos del MIC Entrada, continuando...",
+            variant: "destructive",
+          });
+        }
       }
-      formData.append("company_id", selectedEmpresa.id);
-      formData.append("mode", conApoyo ? "con_apoyo" : "sin_apoyo");
+
+      // 2. Call Python backend with CRT and extracted MIC data
+      setLoadingMessage("Procesando CRT y generando datos...");
+      
+      const formDataBackend = new FormData();
+      formDataBackend.append('crt_file', crtFile);
+      formDataBackend.append('company_id', selectedEmpresa.id);
+      formDataBackend.append('mode', conApoyo ? 'con_apoyo' : 'sin_apoyo');
+      
+      // Send extracted MIC data as JSON string (not the PDF file)
+      if (micEntradaData) {
+        formDataBackend.append('mic_entrada_data', JSON.stringify(micEntradaData));
+      }
 
       const response = await fetch(`${API_BASE_URL}/extract`, {
-        method: "POST",
-        body: formData,
+        method: 'POST',
+        body: formDataBackend
       });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Error al extraer datos");
+        throw new Error(errorData.message || "Error al procesar el CRT");
       }
 
       const data = await response.json();
@@ -60,10 +123,9 @@ export function Step3OperationMode() {
       if (data.success) {
         setExtractedData(data.data);
         
-        // Generate random 5-digit reference number
-        const numeroReferencia = Math.floor(10000 + Math.random() * 90000).toString();
+        const numeroReferencia = generateRandomReference();
         
-        // Pre-fill form with company data
+        // Pre-fill form with company data + MIC Entrada data
         updateFormData({
           porteadorNombre: selectedEmpresa.campo_1_porteador.nombre,
           porteadorPais: selectedEmpresa.campo_1_porteador.pais,
@@ -76,15 +138,32 @@ export function Step3OperationMode() {
           tipoCarga: selectedEmpresa.datos_xml["tipo-carga"],
           tipoTransito: selectedEmpresa.datos_xml["tipo-transito"],
           moneda: selectedEmpresa.datos_xml.moneda,
-          // Número MIC vacío (generado por la aduana)
           numeroMic: "",
-          // Número de referencia aleatorio de 5 dígitos
           numeroReferencia: numeroReferencia,
+          // MIC Entrada data (if available)
+          ...(micEntradaData && {
+            porteadorPermiso: micEntradaData.permiso?.numero || "",
+            porteadorVencimiento: micEntradaData.permiso?.vencimiento || "",
+            porteadorSeguro: micEntradaData.seguro?.numero || "",
+            propietarioNombre: micEntradaData.propietario?.nombre || "",
+            propietarioDomicilio: micEntradaData.propietario?.direccion || "",
+            propietarioRol: micEntradaData.propietario?.rol || "",
+            placaCamion: micEntradaData.camion?.placa || "",
+            marca: micEntradaData.camion?.marca || "",
+            chassis: micEntradaData.camion?.chassis || "",
+            capacidadArrastre: micEntradaData.camion?.capacidad || "",
+            anio: micEntradaData.camion?.anio || "",
+            paisPlaca: micEntradaData.camion?.pais || "BO",
+            placaRemolque: micEntradaData.remolque?.placa || "",
+            nombreConductor: micEntradaData.conductor?.nombre || "",
+            tipoIdConductor: micEntradaData.conductor?.tipo_id || "",
+            idConductor: micEntradaData.conductor?.identificador || "",
+          }),
         });
 
         toast({
           title: "Extracción exitosa",
-          description: "Los datos han sido extraídos correctamente",
+          description: `Datos extraídos. Referencia: ${numeroReferencia}`,
         });
         
         setCurrentStep(4);
@@ -92,7 +171,7 @@ export function Step3OperationMode() {
         throw new Error(data.message || "Error en la respuesta del servidor");
       }
     } catch (error) {
-      console.error("Error extracting data:", error);
+      console.error("Error en extracción:", error);
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Error al conectar con el servidor",
@@ -100,25 +179,45 @@ export function Step3OperationMode() {
       });
     } finally {
       setIsExtracting(false);
+      setLoadingMessage("");
     }
   };
 
-  // Generate random 5-digit reference number
-  const generateRandomReference = () => {
-    return Math.floor(10000 + Math.random() * 90000).toString();
-  };
-
-  // For demo without backend, simulate extraction
-  const handleDemoExtract = () => {
+  // Demo extraction with real n8n webhook call for MIC Entrada
+  const handleDemoExtract = async () => {
     setIsExtracting(true);
     
-    setTimeout(() => {
-      // Generate random 5-digit reference number
+    try {
+      // 1. Try to extract MIC Entrada data from n8n webhook (real call)
+      let micEntradaData = null;
+      if (micEntradaFile) {
+        setLoadingMessage("Extrayendo datos del MIC Entrada...");
+        micEntradaData = await extractMICEntrada(micEntradaFile);
+        
+        if (micEntradaData) {
+          toast({
+            title: "MIC Entrada procesado",
+            description: "Datos del conductor y vehículo extraídos correctamente",
+          });
+        } else {
+          toast({
+            title: "Advertencia",
+            description: "No se pudieron extraer datos del MIC Entrada, usando datos demo...",
+            variant: "destructive",
+          });
+        }
+      }
+
+      // 2. Simulate CRT extraction (demo mode)
+      setLoadingMessage("Procesando CRT (modo demo)...");
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
       const numeroReferencia = generateRandomReference();
       
-      // Pre-fill form with company data
+      // Pre-fill form with company data + real MIC Entrada data (if available) + demo CRT data
       if (selectedEmpresa) {
         updateFormData({
+          // Company data
           porteadorNombre: selectedEmpresa.campo_1_porteador.nombre,
           porteadorPais: selectedEmpresa.campo_1_porteador.pais,
           porteadorComuna: selectedEmpresa.campo_1_porteador.comuna,
@@ -130,11 +229,31 @@ export function Step3OperationMode() {
           tipoCarga: selectedEmpresa.datos_xml["tipo-carga"],
           tipoTransito: selectedEmpresa.datos_xml["tipo-transito"],
           moneda: selectedEmpresa.datos_xml.moneda,
-          // Número MIC vacío (generado por la aduana)
           numeroMic: "",
-          // Número de referencia aleatorio de 5 dígitos
           numeroReferencia: numeroReferencia,
-          // Demo data
+          
+          // MIC Entrada data (real if available, otherwise demo)
+          porteadorPermiso: micEntradaData?.permiso?.numero || "8229/2025",
+          porteadorVencimiento: micEntradaData?.permiso?.vencimiento || "07/01/2026",
+          porteadorSeguro: micEntradaData?.seguro?.numero || "RCT-LP0201-40032-0",
+          propietarioNombre: micEntradaData?.propietario?.nombre || "A-CIEN S.R.L.",
+          propietarioDomicilio: micEntradaData?.propietario?.direccion || "VILLA MODERNA, RENE CRESPO, 115",
+          propietarioRol: micEntradaData?.propietario?.rol || "187230027",
+          propietarioPais: "BO",
+          placaCamion: micEntradaData?.camion?.placa || "2150AHS",
+          marca: micEntradaData?.camion?.marca || "VOLVO",
+          chassis: micEntradaData?.camion?.chassis || "4VG7DAGH2WN750071",
+          capacidadArrastre: micEntradaData?.camion?.capacidad || "30",
+          anio: micEntradaData?.camion?.anio || "1998",
+          paisPlaca: micEntradaData?.camion?.pais || "BO",
+          placaRemolque: micEntradaData?.remolque?.placa || "2150AHS",
+          paisRemolque: "BO",
+          tipoRemolque: "Semiremolque",
+          nombreConductor: micEntradaData?.conductor?.nombre || "LUIS GONZALEZ HUANCA QUISPE",
+          tipoIdConductor: micEntradaData?.conductor?.tipo_id || "CI.",
+          idConductor: micEntradaData?.conductor?.identificador || "2204301",
+          
+          // Demo CRT data
           contenedor1: "MSKU1234567",
           numeroCartaPorte: "CRT-2025-001234",
           cantidadBultos: "150",
@@ -149,16 +268,25 @@ export function Step3OperationMode() {
         });
       }
 
-      setExtractedData({ demo: true });
-      setIsExtracting(false);
+      setExtractedData({ demo: true, micEntradaData });
       
       toast({
-        title: "Extracción simulada",
-        description: `Datos cargados. Número de referencia: ${numeroReferencia}`,
+        title: micEntradaData ? "Extracción completada" : "Extracción simulada",
+        description: `Datos cargados. Referencia: ${numeroReferencia}`,
       });
       
       setCurrentStep(4);
-    }, 2000);
+    } catch (error) {
+      console.error("Error en extracción demo:", error);
+      toast({
+        title: "Error",
+        description: "Error al extraer datos",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExtracting(false);
+      setLoadingMessage("");
+    }
   };
 
   return (
@@ -225,7 +353,7 @@ export function Step3OperationMode() {
                 <AlertCircle className="w-4 h-4 text-warning" />
               )}
               <span>
-                MIC Entrada: {micEntradaFile ? "Listo" : "No subido (opcional)"}
+                MIC Entrada: {micEntradaFile ? "Listo (se extraerá via n8n)" : "No subido (opcional)"}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -240,6 +368,14 @@ export function Step3OperationMode() {
         </CardContent>
       </Card>
 
+      {/* Loading Message */}
+      {isExtracting && loadingMessage && (
+        <div className="flex items-center justify-center gap-2 p-4 bg-primary/10 rounded-lg">
+          <Loader2 className="w-5 h-5 animate-spin text-primary" />
+          <span className="text-sm font-medium text-primary">{loadingMessage}</span>
+        </div>
+      )}
+
       {/* Extract Button */}
       <Button
         size="lg"
@@ -250,7 +386,7 @@ export function Step3OperationMode() {
         {isExtracting ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
-            Extrayendo datos del CRT y procesando...
+            {loadingMessage || "Extrayendo datos..."}
           </>
         ) : (
           <>
