@@ -158,7 +158,7 @@ export function Step4Form() {
     setIsGenerating(true);
     setLoadingMessage("Generando XML...");
 
-    const backendUrl = 'http://72.60.13.178:8004/generate-xml';
+    const backendUrl = 'https://corsproxy.io/?http://72.60.13.178:8004/generate-xml';
     
     console.log('🚀 Llamando a backend:', backendUrl);
     console.log('📦 Datos enviados:', JSON.stringify(xmlData, null, 2));
