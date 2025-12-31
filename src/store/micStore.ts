@@ -47,10 +47,7 @@ export interface FormData {
   porteadorPais: string;
   porteadorComuna: string;
   porteadorDomicilio: string;
-  porteadorPermiso: string;
-  porteadorResolucion: string;
-  porteadorSeguro: string;
-  porteadorVencimiento: string;
+  permisoResolucion: string; // Campo editable para permiso-resolucion
   
   // Rol contribuyente
   tipoIdentificador: string;
@@ -186,10 +183,7 @@ const initialFormData: FormData = {
   porteadorPais: '',
   porteadorComuna: '',
   porteadorDomicilio: '',
-  porteadorPermiso: '',
-  porteadorResolucion: '',
-  porteadorSeguro: '',
-  porteadorVencimiento: '',
+  permisoResolucion: '',
   tipoIdentificador: '',
   rolContribuyente: '',
   tipoIdentificador2: '',
