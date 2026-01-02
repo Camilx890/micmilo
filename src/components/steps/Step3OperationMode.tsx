@@ -173,6 +173,19 @@ export function Step3OperationMode() {
 
       const data = await response.json();
       
+      console.log('🔍 ========== RESPUESTA EXTRACCIÓN CRT ==========');
+      console.log('🔍 Respuesta completa:', data);
+      console.log('🔍 data.data:', data.data);
+      console.log('🔍 --- Campos específicos que necesitamos ---');
+      console.log('🔍 numero_bl:', data.data?.numero_bl);
+      console.log('🔍 sellos/precintos:', data.data?.documento?.precintos);
+      console.log('🔍 documentos_anexos:', data.data?.documentos_anexos);
+      console.log('🔍 remitente_nombre:', data.data?.documento?.['nombre-remitente']);
+      console.log('🔍 destinatario_nombre:', data.data?.documento?.['nombre-destinatario']);
+      console.log('🔍 consignatario_nombre:', data.data?.documento?.['nombre-consignatario']);
+      console.log('🔍 descripcion_mercancias:', data.data?.descripcion_mercancias);
+      console.log('🔍 ================================================');
+      
       if (data.success) {
         setExtractedData(data.data);
         
