@@ -32,9 +32,9 @@ export function FormSidebar() {
   const { toast } = useToast();
 
   const manualFieldsComplete =
-    formData.valorFot.trim() !== "" &&
-    formData.valorFlete.trim() !== "" &&
-    formData.ruta.trim() !== "";
+    String(formData.valorFot || '').trim() !== "" &&
+    String(formData.valorFlete || '').trim() !== "" &&
+    String(formData.ruta || '').trim() !== "";
 
   const handleGenerateXml = async () => {
     if (!manualFieldsComplete) {
