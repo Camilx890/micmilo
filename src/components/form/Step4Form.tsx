@@ -36,11 +36,12 @@ function getNombrePais(codigoPais: string): string {
 }
 
 export function Step4Form() {
-  const { formData, extractedData, selectedEmpresa, isGenerating, setIsGenerating } = useMicStore();
+  const { formData, extractedData, selectedEmpresa, conApoyo, isGenerating, setIsGenerating } = useMicStore();
   const [loadingMessage, setLoadingMessage] = useState("");
 
   // Debug: Log formData on mount and changes
   console.log('🔍 ========== STEP4 RENDER ==========');
+  console.log('🔍 conApoyo (operationMode):', conApoyo);
   console.log('🔍 formData desde store:', formData);
   console.log('🔍 extractedData desde store:', extractedData);
   console.log('🔍 --- Datos del MIC Entrada en formData ---');
@@ -90,9 +91,21 @@ export function Step4Form() {
     };
 
     // 2. Construir el objeto con la estructura EXACTA que espera el backend
+    // LÓGICA CON APOYO vs SIN APOYO
+    const permisoBase = formData.permisoResolucion || '';
+    const propietarioNombre = formData.propietarioNombre || '';
+    
+    // permiso-resolucion: CON APOYO agrega nombre propietario al inicio
+    const permisoResolucion = conApoyo 
+      ? `${propietarioNombre} ${permisoBase}`.trim()
+      : permisoBase;
+
+    console.log('🔧 Modo operación:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
+    console.log('🔧 permiso-resolucion construido:', permisoResolucion);
+
     const xmlData = {
       // ========== CAMPOS RAÍZ ==========
-      'permiso-resolucion': formData.permisoResolucion || '',
+      'permiso-resolucion': permisoResolucion,
       'impr-aduana-destino': formData.aduanaDestinoCodigoNumerico || '',
       'tipo-manifiesto': 'S',
       'login': selectedEmpresa?.login || '',
@@ -151,7 +164,9 @@ export function Step4Form() {
       ],
 
       // ========== PARTICIPACIONES ==========
+      // LÓGICA CON APOYO vs SIN APOYO afecta EMIDO y PROP
       'participaciones': [
+        // EMI - Siempre igual (porteador)
         {
           'valor-id': formData.rolContribuyente || '',
           'valor-id2': '',
@@ -166,34 +181,49 @@ export function Step4Form() {
           'nombre-pais': 'Chile',
           'nombre': 'EMI'
         },
+        // EMIDO - CON APOYO: agrega valor-id2 y tipo-id2 del propietario
         {
           'valor-id': formData.rolContribuyente || '',
-          'valor-id2': formData.propietarioRol || '',
+          'valor-id2': conApoyo ? (formData.propietarioRol || '') : '',
           'nombres': formData.porteadorNombre || '',
           'direccion': formData.porteadorDomicilio || '',
           'comuna': formData.porteadorComuna || '',
-          'tipo-id': 'RUT',
-          'tipo-id2': formData.propietarioTipoId || 'COD/NIT',
+          'tipo-id': formData.tipoIdentificador || 'RUT',
+          'tipo-id2': conApoyo ? 'COD/NIT' : '',
           'codigo-comuna': '',
           'codigo-pais': 'CL',
           'nacion-id': 'CL',
           'nombre-pais': 'Chile',
           'nombre': 'EMIDO'
         },
+        // PROP - CON APOYO: datos del MIC Entrada / SIN APOYO: datos del porteador
         {
-          'valor-id': formData.propietarioRol || '',
+          'valor-id': conApoyo 
+            ? (formData.propietarioRol || '') 
+            : (formData.rolContribuyente || ''),
           'valor-id2': '',
-          'nombres': formData.propietarioNombre || '',
-          'direccion': formData.propietarioDomicilio || '',
-          'comuna': formData.propietarioComuna || '',
-          'tipo-id': formData.propietarioTipoId || 'COD/NIT',
+          'nombres': conApoyo
+            ? (formData.propietarioNombre || '')
+            : (formData.porteadorNombre || ''),
+          'direccion': conApoyo
+            ? (formData.propietarioDomicilio || '')
+            : (formData.porteadorDomicilio || ''),
+          'comuna': conApoyo ? '' : (formData.porteadorComuna || ''),
+          'tipo-id': conApoyo 
+            ? (formData.propietarioTipoId || 'COD/NIT')
+            : 'RUT',
           'tipo-id2': '',
           'codigo-comuna': '',
-          'codigo-pais': 'BO',
-          'nacion-id': 'BO',
-          'nombre-pais': 'Bolivia',
+          'codigo-pais': conApoyo 
+            ? (formData.propietarioPais || 'BO')
+            : 'CL',
+          'nacion-id': conApoyo
+            ? (formData.propietarioPais || 'BO')
+            : 'CL',
+          'nombre-pais': conApoyo ? 'Bolivia' : 'Chile',
           'nombre': 'PROP'
         },
+        // COND - Siempre igual (conductor)
         {
           'valor-id': formData.idConductor || '',
           'valor-id2': '',
