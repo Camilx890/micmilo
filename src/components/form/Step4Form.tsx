@@ -56,6 +56,16 @@ export function Step4Form() {
   console.log('🔍 idConductor:', formData.idConductor);
 
   const handleGenerateXML = async () => {
+    console.log('🔍 ========== GENERANDO XML ==========');
+    console.log('🔍 operationMode (conApoyo):', conApoyo);
+    console.log('🔍 formData.propietarioNombre:', formData.propietarioNombre);
+    console.log('🔍 formData.propietarioRol:', formData.propietarioRol);
+    console.log('🔍 formData.propietarioDomicilio:', formData.propietarioDomicilio);
+    console.log('🔍 formData.propietarioTipoId:', formData.propietarioTipoId);
+    console.log('🔍 formData.propietarioPais:', formData.propietarioPais);
+    console.log('🔍 formData.porteadorNombre:', formData.porteadorNombre);
+    console.log('🔍 formData.rolContribuyente:', formData.rolContribuyente);
+    
     // 1. Validar campos obligatorios
     const validaciones = [
       { campo: 'valorFot', nombre: 'Valor FOT' },

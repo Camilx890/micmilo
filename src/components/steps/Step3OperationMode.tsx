@@ -88,6 +88,11 @@ export function Step3OperationMode() {
         }
         
         if (micData) {
+          console.log('🔍 ========== DEBUG GUARDAR DATOS PROPIETARIO ==========');
+          console.log('🔍 Modo operación (conApoyo):', conApoyo);
+          console.log('🔍 Empresa seleccionada:', selectedEmpresa?.nombre_display);
+          console.log('🔍 Datos MIC Entrada propietario:', micData.propietario);
+          console.log('🔍 ========== GUARDANDO EN FORMDATA ==========');
           console.log('✅ Datos del MIC Entrada extraídos:', micData);
           console.log('🔍 Propietario:', micData.propietario);
           console.log('🔍 Camión:', micData.camion);
