@@ -288,6 +288,7 @@ export function Step3OperationMode() {
           propietarioDomicilio: micEntradaData?.propietario?.direccion || "VILLA MODERNA, RENE CRESPO, 115",
           propietarioRol: micEntradaData?.propietario?.rol || "187230027",
           propietarioPais: "BO",
+          propietarioTipoId: "COD/NIT", // Preseleccionar Bolivia para modo CON APOYO
           placaCamion: micEntradaData?.camion?.placa || "2150AHS",
           marca: micEntradaData?.camion?.marca || "VOLVO",
           chassis: micEntradaData?.camion?.chassis || "4VG7DAGH2WN750071",
