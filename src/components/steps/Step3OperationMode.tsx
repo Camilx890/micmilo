@@ -221,12 +221,14 @@ export function Step3OperationMode() {
           placaRemolque: micEntradaData.remolque?.placa || "",
           paisRemolque: micEntradaData.camion?.pais || "BO",
           nombreConductor: micEntradaData.conductor?.nombre || "",
-          tipoIdConductor: micEntradaData.conductor?.tipo_id || "",
+          // Mapear CI -> CI. porque el dropdown requiere el punto
+          tipoIdConductor: micEntradaData.conductor?.tipo_id === "CI" ? "CI." : (micEntradaData.conductor?.tipo_id || ""),
           idConductor: micEntradaData.conductor?.identificador || "",
         } : {};
         
         console.log('🔍 DEBUG datosVehiculo:', datosVehiculo);
-        console.log('🔍 tipoIdConductor extraído:', micEntradaData?.conductor?.tipo_id);
+        console.log('🔍 tipoIdConductor extraído (raw):', micEntradaData?.conductor?.tipo_id);
+        console.log('🔍 tipoIdConductor mapeado:', datosVehiculo.tipoIdConductor);
 
         // CONDICIONAL: Datos del propietario y rol2 según modo
         let datosPropietario;
@@ -388,7 +390,8 @@ export function Step3OperationMode() {
           paisRemolque: "BO",
           tipoRemolque: "Semiremolque",
           nombreConductor: micEntradaData?.conductor?.nombre || "LUIS GONZALEZ HUANCA QUISPE",
-          tipoIdConductor: micEntradaData?.conductor?.tipo_id || "CI.",
+          // Mapear CI -> CI. porque el dropdown requiere el punto
+          tipoIdConductor: micEntradaData?.conductor?.tipo_id === "CI" ? "CI." : (micEntradaData?.conductor?.tipo_id || "CI."),
           idConductor: micEntradaData?.conductor?.identificador || "2204301",
         };
 
