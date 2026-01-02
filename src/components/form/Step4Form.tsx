@@ -54,6 +54,7 @@ export function Step4Form() {
   console.log('🔍 chassis:', formData.chassis);
   console.log('🔍 nombreConductor:', formData.nombreConductor);
   console.log('🔍 idConductor:', formData.idConductor);
+  console.log('🔍 tipoIdConductor en Step4:', formData.tipoIdConductor);
 
   const handleGenerateXML = async () => {
     console.log('🔍 ========== GENERANDO XML ==========');
