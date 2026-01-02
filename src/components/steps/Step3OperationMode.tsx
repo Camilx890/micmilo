@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE_URL = "https://api.allorigins.win/raw?url=http://72.60.13.178:8004";
+const API_BASE_URL = "https://api.xn--salteeriamaria-unb.com:9443";
 const N8N_WEBHOOK_URL = "https://n8n-n8n.qenbep.easypanel.host/webhook/extract-mic-entrada";
 
 export function Step3OperationMode() {

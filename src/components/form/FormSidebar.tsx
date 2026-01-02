@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE_URL = "https://api.allorigins.win/raw?url=http://72.60.13.178:8004";
+const API_BASE_URL = "https://api.xn--salteeriamaria-unb.com:9443";
 
 export function FormSidebar() {
   const {
