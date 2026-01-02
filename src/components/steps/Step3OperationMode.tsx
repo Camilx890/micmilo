@@ -224,6 +224,9 @@ export function Step3OperationMode() {
           tipoIdConductor: micEntradaData.conductor?.tipo_id || "",
           idConductor: micEntradaData.conductor?.identificador || "",
         } : {};
+        
+        console.log('🔍 DEBUG datosVehiculo:', datosVehiculo);
+        console.log('🔍 tipoIdConductor extraído:', micEntradaData?.conductor?.tipo_id);
 
         // CONDICIONAL: Datos del propietario y rol2 según modo
         let datosPropietario;
