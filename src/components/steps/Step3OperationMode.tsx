@@ -210,10 +210,10 @@ export function Step3OperationMode() {
           idConductor: micEntradaData.conductor?.identificador || "",
         } : {};
 
-        // CONDICIONAL: Datos del propietario según modo
+        // CONDICIONAL: Datos del propietario y rol2 según modo
         let datosPropietario;
         if (conApoyo && micEntradaData) {
-          // CON APOYO: Usar datos del MIC Entrada
+          // CON APOYO: Usar datos del MIC Entrada + rol2 con datos del propietario
           datosPropietario = {
             propietarioNombre: micEntradaData.propietario?.nombre || "",
             propietarioDomicilio: micEntradaData.propietario?.direccion || "",
@@ -222,9 +222,15 @@ export function Step3OperationMode() {
             propietarioPais: "BO",
             propietarioComuna: "",
             permisoResolucion: buildPermisoResolucion(micEntradaData),
+            // En CON APOYO: tipoIdentificador2 y rolContribuyente2 = datos del propietario del MIC
+            tipoIdentificador2: "COD/NIT",
+            rolContribuyente2: micEntradaData.propietario?.rol || "",
           };
+          console.log('🔍 GUARDADO CON APOYO:');
+          console.log('  - rolContribuyente2:', micEntradaData.propietario?.rol);
+          console.log('  - tipoIdentificador2: COD/NIT');
         } else {
-          // SIN APOYO: Usar datos del PORTEADOR
+          // SIN APOYO: Usar datos del PORTEADOR (no hay rol2)
           datosPropietario = {
             propietarioNombre: selectedEmpresa.campo_1_porteador.nombre,
             propietarioDomicilio: selectedEmpresa.campo_1_porteador.domicilio,
@@ -233,6 +239,7 @@ export function Step3OperationMode() {
             propietarioPais: "CL",
             propietarioComuna: selectedEmpresa.campo_1_porteador.comuna,
             permisoResolucion: micEntradaData ? buildPermisoResolucion(micEntradaData) : "",
+            // En SIN APOYO: mantener los valores de la empresa (ya están en datosEmpresa)
           };
         }
 
@@ -337,10 +344,10 @@ export function Step3OperationMode() {
           idConductor: micEntradaData?.conductor?.identificador || "2204301",
         };
 
-        // CONDICIONAL: Datos del propietario según modo
+        // CONDICIONAL: Datos del propietario y rol2 según modo
         let datosPropietario;
         if (conApoyo) {
-          // CON APOYO: Usar datos del MIC Entrada
+          // CON APOYO: Usar datos del MIC Entrada + rol2 con datos del propietario
           datosPropietario = {
             propietarioNombre: micEntradaData?.propietario?.nombre || "A-CIEN S.R.L.",
             propietarioDomicilio: micEntradaData?.propietario?.direccion || "VILLA MODERNA, RENE CRESPO, 115",
@@ -349,9 +356,15 @@ export function Step3OperationMode() {
             propietarioPais: "BO",
             propietarioComuna: "",
             permisoResolucion: buildPermisoResolucion(micEntradaData),
+            // En CON APOYO: tipoIdentificador2 y rolContribuyente2 = datos del propietario del MIC
+            tipoIdentificador2: "COD/NIT",
+            rolContribuyente2: micEntradaData?.propietario?.rol || "187230027",
           };
+          console.log('🔍 GUARDADO CON APOYO (DEMO):');
+          console.log('  - rolContribuyente2:', micEntradaData?.propietario?.rol || "187230027");
+          console.log('  - tipoIdentificador2: COD/NIT');
         } else {
-          // SIN APOYO: Usar datos del PORTEADOR
+          // SIN APOYO: Usar datos del PORTEADOR (no sobrescribir rol2, mantener de empresa)
           datosPropietario = {
             propietarioNombre: selectedEmpresa.campo_1_porteador.nombre,
             propietarioDomicilio: selectedEmpresa.campo_1_porteador.domicilio,
