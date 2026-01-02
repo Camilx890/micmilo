@@ -178,8 +178,8 @@ export function Step3OperationMode() {
         
         const numeroReferencia = generateRandomReference();
         
-        // Pre-fill form with company data + MIC Entrada data
-        updateFormData({
+        // Datos base de la empresa (siempre)
+        const datosEmpresa = {
           porteadorNombre: selectedEmpresa.campo_1_porteador.nombre,
           porteadorPais: selectedEmpresa.campo_1_porteador.pais,
           porteadorComuna: selectedEmpresa.campo_1_porteador.comuna,
@@ -193,23 +193,56 @@ export function Step3OperationMode() {
           moneda: selectedEmpresa.datos_xml.moneda,
           numeroMic: "",
           numeroReferencia: numeroReferencia,
-          // MIC Entrada data (if available)
-          ...(micEntradaData && {
-            permisoResolucion: buildPermisoResolucion(micEntradaData),
+        };
+
+        // Datos del vehículo y conductor del MIC (si hay)
+        const datosVehiculo = micEntradaData ? {
+          placaCamion: micEntradaData.camion?.placa || "",
+          marca: micEntradaData.camion?.marca || "",
+          chassis: micEntradaData.camion?.chassis || "",
+          capacidadArrastre: micEntradaData.camion?.capacidad || "",
+          anio: micEntradaData.camion?.anio || "",
+          paisPlaca: micEntradaData.camion?.pais || "BO",
+          placaRemolque: micEntradaData.remolque?.placa || "",
+          paisRemolque: micEntradaData.camion?.pais || "BO",
+          nombreConductor: micEntradaData.conductor?.nombre || "",
+          tipoIdConductor: micEntradaData.conductor?.tipo_id || "",
+          idConductor: micEntradaData.conductor?.identificador || "",
+        } : {};
+
+        // CONDICIONAL: Datos del propietario según modo
+        let datosPropietario;
+        if (conApoyo && micEntradaData) {
+          // CON APOYO: Usar datos del MIC Entrada
+          datosPropietario = {
             propietarioNombre: micEntradaData.propietario?.nombre || "",
             propietarioDomicilio: micEntradaData.propietario?.direccion || "",
             propietarioRol: micEntradaData.propietario?.rol || "",
-            placaCamion: micEntradaData.camion?.placa || "",
-            marca: micEntradaData.camion?.marca || "",
-            chassis: micEntradaData.camion?.chassis || "",
-            capacidadArrastre: micEntradaData.camion?.capacidad || "",
-            anio: micEntradaData.camion?.anio || "",
-            paisPlaca: micEntradaData.camion?.pais || "BO",
-            placaRemolque: micEntradaData.remolque?.placa || "",
-            nombreConductor: micEntradaData.conductor?.nombre || "",
-            tipoIdConductor: micEntradaData.conductor?.tipo_id || "",
-            idConductor: micEntradaData.conductor?.identificador || "",
-          }),
+            propietarioTipoId: "COD/NIT",
+            propietarioPais: "BO",
+            propietarioComuna: "",
+            permisoResolucion: buildPermisoResolucion(micEntradaData),
+          };
+        } else {
+          // SIN APOYO: Usar datos del PORTEADOR
+          datosPropietario = {
+            propietarioNombre: selectedEmpresa.campo_1_porteador.nombre,
+            propietarioDomicilio: selectedEmpresa.campo_1_porteador.domicilio,
+            propietarioRol: selectedEmpresa.campo_2_rol_contribuyente.valor_id,
+            propietarioTipoId: "RUT",
+            propietarioPais: "CL",
+            propietarioComuna: selectedEmpresa.campo_1_porteador.comuna,
+            permisoResolucion: micEntradaData ? buildPermisoResolucion(micEntradaData) : "",
+          };
+        }
+
+        console.log('🔍 Modo:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
+        console.log('🔍 Datos propietario a guardar:', datosPropietario);
+
+        updateFormData({
+          ...datosEmpresa,
+          ...datosVehiculo,
+          ...datosPropietario,
         });
 
         toast({
@@ -271,8 +304,8 @@ export function Step3OperationMode() {
       console.log('🔍 selectedEmpresa:', selectedEmpresa?.nombre_display);
       
       if (selectedEmpresa) {
-        const formDataToSave = {
-          // Company data
+        // Datos base de la empresa (siempre)
+        const datosEmpresa = {
           porteadorNombre: selectedEmpresa.campo_1_porteador.nombre,
           porteadorPais: selectedEmpresa.campo_1_porteador.pais,
           porteadorComuna: selectedEmpresa.campo_1_porteador.comuna,
@@ -286,14 +319,10 @@ export function Step3OperationMode() {
           moneda: selectedEmpresa.datos_xml.moneda,
           numeroMic: "",
           numeroReferencia: numeroReferencia,
-          
-          // MIC Entrada data (real if available, otherwise demo)
-          permisoResolucion: buildPermisoResolucion(micEntradaData),
-          propietarioNombre: micEntradaData?.propietario?.nombre || "A-CIEN S.R.L.",
-          propietarioDomicilio: micEntradaData?.propietario?.direccion || "VILLA MODERNA, RENE CRESPO, 115",
-          propietarioRol: micEntradaData?.propietario?.rol || "187230027",
-          propietarioPais: "BO",
-          propietarioTipoId: "COD/NIT", // Preseleccionar Bolivia para modo CON APOYO
+        };
+
+        // Datos del vehículo y conductor (demo o reales del MIC)
+        const datosVehiculo = {
           placaCamion: micEntradaData?.camion?.placa || "2150AHS",
           marca: micEntradaData?.camion?.marca || "VOLVO",
           chassis: micEntradaData?.camion?.chassis || "4VG7DAGH2WN750071",
@@ -306,8 +335,36 @@ export function Step3OperationMode() {
           nombreConductor: micEntradaData?.conductor?.nombre || "LUIS GONZALEZ HUANCA QUISPE",
           tipoIdConductor: micEntradaData?.conductor?.tipo_id || "CI.",
           idConductor: micEntradaData?.conductor?.identificador || "2204301",
-          
-          // Demo CRT data
+        };
+
+        // CONDICIONAL: Datos del propietario según modo
+        let datosPropietario;
+        if (conApoyo) {
+          // CON APOYO: Usar datos del MIC Entrada
+          datosPropietario = {
+            propietarioNombre: micEntradaData?.propietario?.nombre || "A-CIEN S.R.L.",
+            propietarioDomicilio: micEntradaData?.propietario?.direccion || "VILLA MODERNA, RENE CRESPO, 115",
+            propietarioRol: micEntradaData?.propietario?.rol || "187230027",
+            propietarioTipoId: "COD/NIT",
+            propietarioPais: "BO",
+            propietarioComuna: "",
+            permisoResolucion: buildPermisoResolucion(micEntradaData),
+          };
+        } else {
+          // SIN APOYO: Usar datos del PORTEADOR
+          datosPropietario = {
+            propietarioNombre: selectedEmpresa.campo_1_porteador.nombre,
+            propietarioDomicilio: selectedEmpresa.campo_1_porteador.domicilio,
+            propietarioRol: selectedEmpresa.campo_2_rol_contribuyente.valor_id,
+            propietarioTipoId: "RUT",
+            propietarioPais: "CL",
+            propietarioComuna: selectedEmpresa.campo_1_porteador.comuna,
+            permisoResolucion: buildPermisoResolucion(micEntradaData),
+          };
+        }
+
+        // Demo CRT data
+        const datosCRT = {
           contenedor1: "MSKU1234567",
           numeroCartaPorte: "CRT-2025-001234",
           cantidadBultos: "150",
@@ -320,15 +377,17 @@ export function Step3OperationMode() {
           consignatarioDomicilio: "Zona Industrial Sur, Santa Cruz, Bolivia",
           descripcionMercancias: "Mercancías varias según CRT adjunto",
         };
+
+        console.log('🔍 ========== GUARDANDO EN STORE (DEMO) ==========');
+        console.log('🔍 Modo:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
+        console.log('🔍 Datos propietario a guardar:', datosPropietario);
         
-        console.log('🔍 Datos a guardar en formData:', formDataToSave);
-        console.log('🔍 propietarioNombre:', formDataToSave.propietarioNombre);
-        console.log('🔍 propietarioRol:', formDataToSave.propietarioRol);
-        console.log('🔍 placaCamion:', formDataToSave.placaCamion);
-        console.log('🔍 nombreConductor:', formDataToSave.nombreConductor);
-        console.log('🔍 permisoResolucion:', formDataToSave.permisoResolucion);
-        
-        updateFormData(formDataToSave);
+        updateFormData({
+          ...datosEmpresa,
+          ...datosVehiculo,
+          ...datosPropietario,
+          ...datosCRT,
+        });
         console.log('✅ updateFormData() llamado');
       }
 
