@@ -385,8 +385,10 @@ export function FormSections() {
           </div>
 
           {/* CAMPO 8: Ciudad y País Destino Final - OBLIGATORIO */}
+          {/* También copia automáticamente al Campo 24 (Aduana de Destino) */}
           <div className="md:col-span-2 p-4 rounded-lg border border-primary/20 bg-primary/5">
             <h4 className="font-medium mb-4">Campo 8: Ciudad y País de Destino Final</h4>
+            <p className="text-xs text-muted-foreground mb-4">Este campo también define la Aduana de Destino (Campo 24)</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Ciudad y país de destino final <span className="text-destructive">*</span></Label>
@@ -394,9 +396,12 @@ export function FormSections() {
                   value={formData.ciudadDestinoCodigo}
                   onValueChange={(value) => {
                     const aduana = aduanas_bolivia.find((a) => a.codigo === value);
+                    // Actualiza Campo 8 Y Campo 24 simultáneamente
                     updateFormData({
                       ciudadDestinoCodigo: value,
                       ciudadDestinoFinal: aduana?.descripcion || "",
+                      aduanaDestinoCodigo: value,
+                      aduanaDestinoDescripcion: aduana?.descripcion || "",
                     });
                   }}
                 >
@@ -417,9 +422,13 @@ export function FormSections() {
                 <Input
                   id="ciudadDestinoCodigoNumerico"
                   value={formData.ciudadDestinoCodigoNumerico}
-                  onChange={(e) =>
-                    updateFormData({ ciudadDestinoCodigoNumerico: e.target.value })
-                  }
+                  onChange={(e) => {
+                    // Actualiza Campo 8 Y Campo 24 simultáneamente
+                    updateFormData({
+                      ciudadDestinoCodigoNumerico: e.target.value,
+                      aduanaDestinoCodigoNumerico: e.target.value,
+                    });
+                  }}
                   placeholder="Ej: 352"
                   className="font-mono"
                 />
@@ -429,9 +438,12 @@ export function FormSections() {
                 <Input
                   id="depositoFiscalNombre"
                   value={formData.depositoFiscalNombre}
-                  onChange={(e) =>
-                    updateFormData({ depositoFiscalNombre: e.target.value })
-                  }
+                  onChange={(e) => {
+                    updateFormData({
+                      depositoFiscalNombre: e.target.value,
+                      aduanaDestinoDepositoNombre: e.target.value,
+                    });
+                  }}
                   placeholder="Opcional"
                 />
               </div>
@@ -440,9 +452,12 @@ export function FormSections() {
                 <Input
                   id="depositoFiscalCodigo"
                   value={formData.depositoFiscalCodigo}
-                  onChange={(e) =>
-                    updateFormData({ depositoFiscalCodigo: e.target.value })
-                  }
+                  onChange={(e) => {
+                    updateFormData({
+                      depositoFiscalCodigo: e.target.value,
+                      aduanaDestinoDepositoCodigo: e.target.value,
+                    });
+                  }}
                   className="font-mono"
                   placeholder="Opcional"
                 />
@@ -719,75 +734,7 @@ export function FormSections() {
             </RadioGroup>
           </div>
           
-          {/* CAMPO 24: Aduana de Destino - OBLIGATORIO */}
-          <div className="md:col-span-2 p-4 rounded-lg border border-primary/20 bg-primary/5">
-            <h4 className="font-medium mb-4">Campo 24: Aduana de Destino</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Aduana de destino <span className="text-destructive">*</span></Label>
-                <Select
-                  value={formData.aduanaDestinoCodigo}
-                  onValueChange={(value) => {
-                    const aduana = aduanas_bolivia.find((a) => a.codigo === value);
-                    updateFormData({
-                      aduanaDestinoCodigo: value,
-                      aduanaDestinoDescripcion: aduana?.descripcion || "",
-                    });
-                  }}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar aduana" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-popover max-h-[300px]">
-                    {aduanas_bolivia.map((aduana) => (
-                      <SelectItem key={aduana.codigo} value={aduana.codigo}>
-                        {aduana.descripcion}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="aduanaDestinoCodigoNumerico">Código <span className="text-destructive">*</span></Label>
-                <Input
-                  id="aduanaDestinoCodigoNumerico"
-                  value={formData.aduanaDestinoCodigoNumerico}
-                  onChange={(e) =>
-                    updateFormData({ aduanaDestinoCodigoNumerico: e.target.value })
-                  }
-                  placeholder="Ej: 352"
-                  className="font-mono"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="aduanaDestinoDepositoNombre">Nombre depósito fiscal</Label>
-                <Input
-                  id="aduanaDestinoDepositoNombre"
-                  value={formData.aduanaDestinoDepositoNombre}
-                  onChange={(e) =>
-                    updateFormData({
-                      aduanaDestinoDepositoNombre: e.target.value,
-                    })
-                  }
-                  placeholder="Opcional"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="aduanaDestinoDepositoCodigo">Código depósito fiscal</Label>
-                <Input
-                  id="aduanaDestinoDepositoCodigo"
-                  value={formData.aduanaDestinoDepositoCodigo}
-                  onChange={(e) =>
-                    updateFormData({
-                      aduanaDestinoDepositoCodigo: e.target.value,
-                    })
-                  }
-                  className="font-mono"
-                  placeholder="Opcional"
-                />
-              </div>
-            </div>
-          </div>
+          {/* CAMPO 24: Aduana de Destino - OCULTO, se copia automáticamente del Campo 8 */}
         </div>
       </SectionCard>
 
