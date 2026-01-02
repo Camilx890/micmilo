@@ -442,6 +442,7 @@ export function Step3OperationMode() {
         console.log('🔍 ========== GUARDANDO EN STORE (DEMO) ==========');
         console.log('🔍 Modo:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
         console.log('🔍 Datos propietario a guardar:', datosPropietario);
+        console.log('🔍 tipoIdConductor A GUARDAR:', datosVehiculo.tipoIdConductor);
         
         updateFormData({
           ...datosEmpresa,
