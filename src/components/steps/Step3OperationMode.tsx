@@ -176,14 +176,16 @@ export function Step3OperationMode() {
       console.log('🔍 ========== RESPUESTA EXTRACCIÓN CRT ==========');
       console.log('🔍 Respuesta completa:', data);
       console.log('🔍 data.data:', data.data);
-      console.log('🔍 --- Campos específicos que necesitamos ---');
-      console.log('🔍 numero_bl:', data.data?.numero_bl);
-      console.log('🔍 sellos/precintos:', data.data?.documento?.precintos);
-      console.log('🔍 documentos_anexos:', data.data?.documentos_anexos);
-      console.log('🔍 remitente_nombre:', data.data?.documento?.['nombre-remitente']);
-      console.log('🔍 destinatario_nombre:', data.data?.documento?.['nombre-destinatario']);
-      console.log('🔍 consignatario_nombre:', data.data?.documento?.['nombre-consignatario']);
-      console.log('🔍 descripcion_mercancias:', data.data?.descripcion_mercancias);
+      console.log('🔍 --- crt_extracted (datos del CRT) ---');
+      console.log('🔍 crt_extracted:', data.crt_extracted);
+      console.log('🔍 crt_extracted.numero_bl:', data.crt_extracted?.numero_bl);
+      console.log('🔍 crt_extracted.numero_crt:', data.crt_extracted?.numero_crt);
+      console.log('🔍 crt_extracted.sellos:', data.crt_extracted?.sellos);
+      console.log('🔍 crt_extracted.documentos_anexos:', data.crt_extracted?.documentos_anexos);
+      console.log('🔍 crt_extracted.remitente_nombre:', data.crt_extracted?.remitente_nombre);
+      console.log('🔍 crt_extracted.destinatario_nombre:', data.crt_extracted?.destinatario_nombre);
+      console.log('🔍 crt_extracted.consignatario_nombre:', data.crt_extracted?.consignatario_nombre);
+      console.log('🔍 crt_extracted.descripcion_mercancia:', data.crt_extracted?.descripcion_mercancia);
       console.log('🔍 ================================================');
       
       if (data.success) {
