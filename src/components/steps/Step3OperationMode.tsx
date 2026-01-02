@@ -69,15 +69,38 @@ export function Step3OperationMode() {
 
       if (response.ok) {
         const result = await response.json();
+        console.log('🔍 Respuesta RAW del webhook n8n:', result);
+        console.log('🔍 Tipo de respuesta:', typeof result, Array.isArray(result) ? 'es array' : 'no es array');
         
-        // El webhook devuelve un array: [{success: true, data: {...}}]
+        // El webhook puede devolver directamente el objeto o un array
+        let micData = null;
+        
         if (Array.isArray(result) && result.length > 0) {
           const item = result[0];
-          if (item.success) {
-            console.log('✓ Datos del MIC Entrada extraídos:', item.data);
-            return item.data;
+          console.log('🔍 Primer item del array:', item);
+          if (item.success && item.data) {
+            micData = item.data;
           }
+        } else if (result.success && result.data) {
+          // Respuesta directa (no array)
+          console.log('🔍 Respuesta directa (no array):', result);
+          micData = result.data;
         }
+        
+        if (micData) {
+          console.log('✅ Datos del MIC Entrada extraídos:', micData);
+          console.log('🔍 Propietario:', micData.propietario);
+          console.log('🔍 Camión:', micData.camion);
+          console.log('🔍 Remolque:', micData.remolque);
+          console.log('🔍 Conductor:', micData.conductor);
+          console.log('🔍 Permiso:', micData.permiso);
+          console.log('🔍 Seguro:', micData.seguro);
+          return micData;
+        } else {
+          console.warn('⚠️ No se encontraron datos en la respuesta:', result);
+        }
+      } else {
+        console.error('❌ Response no OK:', response.status, response.statusText);
       }
       return null;
     } catch (error) {
@@ -238,8 +261,12 @@ export function Step3OperationMode() {
       const numeroReferencia = generateRandomReference();
       
       // Pre-fill form with company data + real MIC Entrada data (if available) + demo CRT data
+      console.log('🔍 ========== GUARDANDO EN STORE ==========');
+      console.log('🔍 micEntradaData completo:', micEntradaData);
+      console.log('🔍 selectedEmpresa:', selectedEmpresa?.nombre_display);
+      
       if (selectedEmpresa) {
-        updateFormData({
+        const formDataToSave = {
           // Company data
           porteadorNombre: selectedEmpresa.campo_1_porteador.nombre,
           porteadorPais: selectedEmpresa.campo_1_porteador.pais,
@@ -286,10 +313,21 @@ export function Step3OperationMode() {
           consignatarioNombre: "CONSIGNATARIO FINAL LTDA.",
           consignatarioDomicilio: "Zona Industrial Sur, Santa Cruz, Bolivia",
           descripcionMercancias: "Mercancías varias según CRT adjunto",
-        });
+        };
+        
+        console.log('🔍 Datos a guardar en formData:', formDataToSave);
+        console.log('🔍 propietarioNombre:', formDataToSave.propietarioNombre);
+        console.log('🔍 propietarioRol:', formDataToSave.propietarioRol);
+        console.log('🔍 placaCamion:', formDataToSave.placaCamion);
+        console.log('🔍 nombreConductor:', formDataToSave.nombreConductor);
+        console.log('🔍 permisoResolucion:', formDataToSave.permisoResolucion);
+        
+        updateFormData(formDataToSave);
+        console.log('✅ updateFormData() llamado');
       }
 
       setExtractedData({ demo: true, micEntradaData });
+      console.log('✅ setExtractedData() llamado con micEntradaData');
       
       toast({
         title: micEntradaData ? "Extracción completada" : "Extracción simulada",

@@ -39,6 +39,21 @@ export function Step4Form() {
   const { formData, extractedData, selectedEmpresa, isGenerating, setIsGenerating } = useMicStore();
   const [loadingMessage, setLoadingMessage] = useState("");
 
+  // Debug: Log formData on mount and changes
+  console.log('🔍 ========== STEP4 RENDER ==========');
+  console.log('🔍 formData desde store:', formData);
+  console.log('🔍 extractedData desde store:', extractedData);
+  console.log('🔍 --- Datos del MIC Entrada en formData ---');
+  console.log('🔍 permisoResolucion:', formData.permisoResolucion);
+  console.log('🔍 propietarioNombre:', formData.propietarioNombre);
+  console.log('🔍 propietarioRol:', formData.propietarioRol);
+  console.log('🔍 propietarioDomicilio:', formData.propietarioDomicilio);
+  console.log('🔍 placaCamion:', formData.placaCamion);
+  console.log('🔍 marca:', formData.marca);
+  console.log('🔍 chassis:', formData.chassis);
+  console.log('🔍 nombreConductor:', formData.nombreConductor);
+  console.log('🔍 idConductor:', formData.idConductor);
+
   const handleGenerateXML = async () => {
     // 1. Validar campos obligatorios
     const validaciones = [
