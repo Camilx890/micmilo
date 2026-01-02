@@ -283,6 +283,9 @@ export function Step3OperationMode() {
           origenMercanciasCodigo: data.crt_extracted?.remitente_pais || '',
           aduanaDestinoCodigo: data.crt_extracted?.aduana_destino || '',
           aduanaDestinoCodigoNumerico: data.crt_extracted?.aduana_destino_codigo || '',
+          // Nuevos campos del CRT
+          valorFot: data.crt_extracted?.valor_fot || '',
+          valorFlete: data.crt_extracted?.valor_flete || '',
         };
 
         console.log('🔍 Datos CRT mapeados:', datosCRT);
