@@ -196,31 +196,35 @@ export function Step4Form() {
           'nombre-pais': 'Chile',
           'nombre': 'EMIDO'
         },
-        // PROP - CON APOYO: datos del MIC Entrada / SIN APOYO: datos del porteador
+        // PROP - Siempre usa formData.propietarioXXX primero, con fallback según modo
+        // En SIN APOYO: fallback a datos del porteador
+        // En CON APOYO: fallback vacío (datos vienen del MIC Entrada)
         {
           'valor-id': conApoyo 
             ? (formData.propietarioRol || '') 
-            : (formData.rolContribuyente || ''),
+            : (formData.propietarioRol || formData.rolContribuyente || ''),
           'valor-id2': '',
           'nombres': conApoyo
             ? (formData.propietarioNombre || '')
-            : (formData.porteadorNombre || ''),
+            : (formData.propietarioNombre || formData.porteadorNombre || ''),
           'direccion': conApoyo
             ? (formData.propietarioDomicilio || '')
-            : (formData.porteadorDomicilio || ''),
-          'comuna': conApoyo ? '' : (formData.porteadorComuna || ''),
+            : (formData.propietarioDomicilio || formData.porteadorDomicilio || ''),
+          'comuna': conApoyo ? '' : (formData.propietarioComuna || formData.porteadorComuna || ''),
           'tipo-id': conApoyo 
             ? (formData.propietarioTipoId || 'COD/NIT')
-            : 'RUT',
+            : (formData.propietarioTipoId || 'RUT'),
           'tipo-id2': '',
           'codigo-comuna': '',
           'codigo-pais': conApoyo 
             ? (formData.propietarioPais || 'BO')
-            : 'CL',
+            : (formData.propietarioPais || 'CL'),
           'nacion-id': conApoyo
             ? (formData.propietarioPais || 'BO')
-            : 'CL',
-          'nombre-pais': conApoyo ? 'Bolivia' : 'Chile',
+            : (formData.propietarioPais || 'CL'),
+          'nombre-pais': conApoyo 
+            ? getNombrePais(formData.propietarioPais || 'BO')
+            : getNombrePais(formData.propietarioPais || 'CL'),
           'nombre': 'PROP'
         },
         // COND - Siempre igual (conductor)
