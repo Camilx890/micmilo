@@ -530,7 +530,7 @@ export function Step3OperationMode() {
       <Button
         size="lg"
         className="w-full h-14 text-lg gap-3"
-        onClick={handleDemoExtract}
+        onClick={handleExtract}
         disabled={isExtracting}
       >
         {isExtracting ? (
