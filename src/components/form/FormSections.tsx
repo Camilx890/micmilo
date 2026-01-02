@@ -177,10 +177,14 @@ export function FormSections() {
 
               {conApoyo && (
                 <>
+                  {console.log('🔍 DEBUG RENDER Rol2:', {
+                    tipoIdentificador2: formData.tipoIdentificador2,
+                    rolContribuyente2: formData.rolContribuyente2,
+                  })}
                   <div className="space-y-2">
                     <Label>Tipo identificador 2</Label>
                     <Select
-                      value={formData.tipoIdentificador2}
+                      value={formData.tipoIdentificador2 || ""}
                       onValueChange={(value) =>
                         updateFormData({ tipoIdentificador2: value })
                       }
@@ -190,7 +194,7 @@ export function FormSections() {
                       </SelectTrigger>
                       <SelectContent className="bg-popover">
                         {tipo_identificador.map((tipo) => (
-                          <SelectItem key={tipo.value} value={tipo.value || "none"}>
+                          <SelectItem key={tipo.value || "empty"} value={tipo.value || "none"}>
                             {tipo.label}
                           </SelectItem>
                         ))}
