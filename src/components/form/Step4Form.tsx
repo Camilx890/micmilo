@@ -113,6 +113,13 @@ export function Step4Form() {
     console.log('🔧 Modo operación:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
     console.log('🔧 permiso-resolucion construido:', permisoResolucion);
 
+    console.log('🔍 ========== ANTES DE GENERAR XML ==========');
+    console.log('🔍 formData.numeroPrecintos:', formData.numeroPrecintos);
+    console.log('🔍 formData.documentosAnexos:', formData.documentosAnexos);
+    console.log('🔍 formData.numeroBl:', formData.numeroBl);
+    console.log('🔍 formData.remitenteNombre:', formData.remitenteNombre);
+    console.log('🔍 ================================================');
+
     const xmlData = {
       // ========== CAMPOS RAÍZ ==========
       'permiso-resolucion': permisoResolucion,
