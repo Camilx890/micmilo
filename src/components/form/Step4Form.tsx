@@ -327,14 +327,14 @@ export function Step4Form() {
           'emisor': '',
           'tipo': 'CP',
           'fecha': '',
-          'Precintos': formData.numeroPrecintos
+          'precintos': formData.numeroPrecintos
             ? formData.numeroPrecintos.split(',').map((p: string) => ({
                 'numero': p.trim(),
                 'emisor': '',
                 'codigo': ''
               }))
             : [],
-          'DocumentosAnexos': formData.documentosAnexos ? [{
+          'documentos-anexos': formData.documentosAnexos ? [{
             'numero': '',
             'fecha': '',
             'numero-dus': '',
