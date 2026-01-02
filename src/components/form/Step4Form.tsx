@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { FormSidebar } from "./FormSidebar";
 import { ManualFieldsSection } from "./ManualFieldsSection";
 import { FormSections } from "./FormSections";
 import { Button } from "@/components/ui/button";
 import { useMicStore } from "@/store/micStore";
 import { toast } from "sonner";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, Ship, FileSpreadsheet, FileText, Building2, Settings2, RotateCcw, Edit2, CheckCircle2, AlertTriangle } from "lucide-react";
+import { StepIndicator } from "@/components/StepIndicator";
 import dropdownsConfig from "@/data/dropdowns_config.json";
 
 // Helper para extraer nombre de ciudad del código de aduana
@@ -36,8 +36,13 @@ function getNombrePais(codigoPais: string): string {
 }
 
 export function Step4Form() {
-  const { formData, extractedData, selectedEmpresa, conApoyo, isGenerating, setIsGenerating } = useMicStore();
+  const { formData, extractedData, selectedEmpresa, conApoyo, isGenerating, setIsGenerating, crtFile, micEntradaFile, setCurrentStep, resetAll } = useMicStore();
   const [loadingMessage, setLoadingMessage] = useState("");
+
+  const manualFieldsComplete =
+    String(formData.valorFot || '').trim() !== "" &&
+    String(formData.valorFlete || '').trim() !== "" &&
+    String(formData.ruta || '').trim() !== "";
 
   // Debug: Log formData on mount and changes
   console.log('🔍 ========== STEP4 RENDER ==========');
@@ -420,12 +425,116 @@ export function Step4Form() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <FormSidebar />
+    <div className="min-h-screen bg-background">
+      {/* Header with Step Indicator */}
+      <header className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                <Ship className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-foreground">
+                  Generador MIC/DTA
+                </h1>
+                <p className="text-xs text-muted-foreground">
+                  Aduana de Chile - XML Automático
+                </p>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <StepIndicator currentStep={4} />
+            </div>
+          </div>
+          <div className="md:hidden mt-4">
+            <StepIndicator currentStep={4} />
+          </div>
+        </div>
+      </header>
+
+      {/* Summary Bar */}
+      <div className="border-b bg-muted/30">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            {/* Left: File & Company Info */}
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <FileSpreadsheet className="w-4 h-4 text-success" />
+                <span className="text-muted-foreground truncate max-w-[150px]">{crtFile?.name || "CRT.xlsx"}</span>
+              </div>
+              {micEntradaFile && (
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-info" />
+                  <span className="text-muted-foreground truncate max-w-[150px]">{micEntradaFile.name}</span>
+                </div>
+              )}
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-primary" />
+                <span className="text-muted-foreground truncate max-w-[200px]">{selectedEmpresa?.nombre_display}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Settings2 className="w-4 h-4" />
+                <span className="text-muted-foreground">{conApoyo ? "Con Apoyo" : "Sin Apoyo"}</span>
+              </div>
+            </div>
+
+            {/* Right: Actions */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => setCurrentStep(1)}
+              >
+                <Edit2 className="w-4 h-4" />
+                <span className="hidden sm:inline">Editar</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1.5 text-muted-foreground"
+                onClick={resetAll}
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span className="hidden sm:inline">Nuevo</span>
+              </Button>
+            </div>
+          </div>
+
+          {/* Manual Fields Status */}
+          <div className="flex flex-wrap items-center gap-4 mt-2 text-xs">
+            <span className="text-muted-foreground">Campos manuales:</span>
+            <div className="flex items-center gap-1">
+              {formData.valorFot ? (
+                <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+              ) : (
+                <AlertTriangle className="w-3.5 h-3.5 text-warning" />
+              )}
+              <span className={formData.valorFot ? "text-success" : "text-warning"}>FOT</span>
+            </div>
+            <div className="flex items-center gap-1">
+              {formData.valorFlete ? (
+                <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+              ) : (
+                <AlertTriangle className="w-3.5 h-3.5 text-warning" />
+              )}
+              <span className={formData.valorFlete ? "text-success" : "text-warning"}>Flete</span>
+            </div>
+            <div className="flex items-center gap-1">
+              {formData.ruta ? (
+                <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+              ) : (
+                <AlertTriangle className="w-3.5 h-3.5 text-warning" />
+              )}
+              <span className={formData.ruta ? "text-success" : "text-warning"}>Ruta</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Main Form Area */}
-      <main className="flex-1 p-6 overflow-y-auto">
+      <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-foreground">
@@ -447,7 +556,7 @@ export function Step4Form() {
           <div className="sticky bottom-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t pt-4 pb-6">
             <Button
               onClick={handleGenerateXML}
-              disabled={isGenerating}
+              disabled={isGenerating || !manualFieldsComplete}
               size="lg"
               className="w-full text-lg py-6"
             >
