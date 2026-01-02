@@ -130,6 +130,7 @@ export interface FormData {
   documentosAnexos: string;
   numeroPrecintos: string;
   descripcionMercancias: string;
+  numeroBl: string;
   
   // Conductor
   tipoIdConductor: string;
@@ -246,6 +247,7 @@ const initialFormData: FormData = {
   documentosAnexos: '',
   numeroPrecintos: '',
   descripcionMercancias: '',
+  numeroBl: '',
   tipoIdConductor: '',
   idConductor: '',
   nombreConductor: '',

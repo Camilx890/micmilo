@@ -261,10 +261,37 @@ export function Step3OperationMode() {
         console.log('🔍 Modo:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
         console.log('🔍 Datos propietario a guardar:', datosPropietario);
 
+        // Datos extraídos del CRT
+        const datosCRT = {
+          numeroBl: data.crt_extracted?.numero_bl || '',
+          numeroPrecintos: data.crt_extracted?.sellos?.[0] || '',
+          documentosAnexos: data.crt_extracted?.documentos_anexos || '',
+          remitenteNombre: data.crt_extracted?.remitente_nombre || '',
+          remitenteDomicilio: data.crt_extracted?.remitente_domicilio || '',
+          destinatarioNombre: data.crt_extracted?.destinatario_nombre || '',
+          destinatarioDomicilio: data.crt_extracted?.destinatario_domicilio || '',
+          consignatarioNombre: data.crt_extracted?.consignatario_nombre || '',
+          consignatarioDomicilio: data.crt_extracted?.consignatario_domicilio || '',
+          descripcionMercancias: data.crt_extracted?.descripcion_mercancia || '',
+          cantidadBultos: String(data.crt_extracted?.bultos_cantidad || ''),
+          tipoBultos: data.crt_extracted?.bultos_tipo || '',
+          tipoBultosCodigo: data.crt_extracted?.bultos_tipo_codigo || '',
+          pesoBruto: String(data.crt_extracted?.peso_bruto || ''),
+          contenedor1: data.crt_extracted?.contenedores?.[0] || '',
+          contenedor2: data.crt_extracted?.contenedores?.[1] || '',
+          numeroCartaPorte: data.crt_extracted?.numero_crt || '',
+          origenMercanciasCodigo: data.crt_extracted?.remitente_pais || '',
+          aduanaDestinoCodigo: data.crt_extracted?.aduana_destino || '',
+          aduanaDestinoCodigoNumerico: data.crt_extracted?.aduana_destino_codigo || '',
+        };
+
+        console.log('🔍 Datos CRT mapeados:', datosCRT);
+
         updateFormData({
           ...datosEmpresa,
           ...datosVehiculo,
           ...datosPropietario,
+          ...datosCRT,
         });
 
         toast({
