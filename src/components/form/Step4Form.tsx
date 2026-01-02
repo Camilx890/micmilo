@@ -6,6 +6,34 @@ import { Button } from "@/components/ui/button";
 import { useMicStore } from "@/store/micStore";
 import { toast } from "sonner";
 import { Download, Loader2 } from "lucide-react";
+import dropdownsConfig from "@/data/dropdowns_config.json";
+
+// Helper para extraer nombre de ciudad del código de aduana
+function getNombreCiudad(codigoAduana: string): string {
+  if (!codigoAduana) return '';
+  const aduana = dropdownsConfig.dropdowns.aduanas_bolivia.find(
+    (a) => a.codigo === codigoAduana
+  );
+  if (aduana) {
+    // Extraer solo el nombre de la ciudad (después de "Bolivia - ")
+    return aduana.descripcion.replace('Bolivia - ', '');
+  }
+  return '';
+}
+
+// Helper para obtener nombre del país
+function getNombrePais(codigoPais: string): string {
+  const paises: Record<string, string> = {
+    'CL': 'Chile',
+    'BO': 'Bolivia',
+    'AR': 'Argentina',
+    'PE': 'Perú',
+    'BR': 'Brasil',
+    'PY': 'Paraguay',
+    'UY': 'Uruguay'
+  };
+  return paises[codigoPais] || codigoPais;
+}
 
 export function Step4Form() {
   const { formData, extractedData, selectedEmpresa, isGenerating, setIsGenerating } = useMicStore();
@@ -32,126 +60,240 @@ export function Step4Form() {
       return;
     }
 
-    // 2. Construir el objeto con todos los datos del formulario
+    // Formatear fecha en formato DD-MM-YYYY
+    const formatDate = (dateStr: string): string => {
+      if (!dateStr) {
+        const today = new Date();
+        return `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+      }
+      // Si viene en formato YYYY-MM-DD, convertir a DD-MM-YYYY
+      if (dateStr.includes('-') && dateStr.length === 10) {
+        const [year, month, day] = dateStr.split('-');
+        return `${day}-${month}-${year}`;
+      }
+      return dateStr;
+    };
+
+    // 2. Construir el objeto con la estructura EXACTA que espera el backend
     const xmlData = {
-      // Campos manuales
-      "valor-fot": formData.valorFot,
-      "valor-flete": formData.valorFlete,
-      "valor-seguro": formData.valorSeguro || "0",
-      "ruta": formData.ruta,
-      
-      // Campo permiso-resolucion
-      "permiso-resolucion": formData.permisoResolucion || "",
-      
-      // Campo 8: Ciudad destino final
-      "campo8": {
-        "aduana_codigo": formData.ciudadDestinoCodigo,
-        "codigo_manual": formData.ciudadDestinoCodigoNumerico,
-        "nombre_deposito": formData.depositoFiscalNombre || "",
-        "codigo_deposito": formData.depositoFiscalCodigo || ""
-      },
-      
-      // Campo 24: Aduana de destino
-      "campo24": {
-        "aduana_codigo": formData.aduanaDestinoCodigo,
-        "codigo_manual": formData.aduanaDestinoCodigoNumerico,
-        "nombre_deposito": formData.aduanaDestinoDepositoNombre || "",
-        "codigo_deposito": formData.aduanaDestinoDepositoCodigo || ""
+      // ========== CAMPOS RAÍZ ==========
+      'permiso-resolucion': formData.permisoResolucion || '',
+      'impr-aduana-destino': formData.aduanaDestinoCodigoNumerico || '',
+      'tipo-manifiesto': 'S',
+      'login': selectedEmpresa?.login || '',
+      'numero-aduana-origen': '',
+      'impr-lugar-destino': formData.ciudadDestinoCodigoNumerico || '',
+      'impr-aduana-origen': formData.aduanaPartidaCodigoNumerico || '997',
+      'transito-aduanero-si': formData.transitoAduanero === 'Si' ? 'X' : '',
+      'transito-aduanero-no': formData.transitoAduanero === 'No' ? 'X' : '',
+      'descripcion-mercancias': formData.descripcionMercancias || '',
+      'origen-mercancias': formData.origenMercanciasCodigo || '',
+      'codigo-mercancias': formData.aduanaDestinoCodigoNumerico || '',
+      'tipo-carga': formData.tipoCarga || 'Carga General',
+      'tipo-transito': formData.tipoTransito || 'Transito',
+      'moneda': formData.moneda || 'USD',
+      'deposito-fiscal': formData.depositoFiscalNombre || '',
+      'codigo-deposito': formData.depositoFiscalCodigo || '',
+      'numero-contenedor1': formData.contenedor1 || '',
+      'numero-contenedor2': formData.contenedor2 || '',
+      'total-bultos': formData.cantidadBultos || '0',
+      'total-peso-bruto': formData.pesoBruto || '0.0',
+      'carga-peligrosa': 'N',
+      'numero-referencia': formData.numeroReferencia || '',
+      'id-sender': 'MIC-DTA 1.0',
+
+      // ========== FECHAS ==========
+      'fechas': {
+        'fecha': {
+          'valor': formatDate(formData.fechaEmision || ''),
+          'nombre': 'FEM'
+        }
       },
 
-      // Empresa seleccionada
-      "empresa": selectedEmpresa ? {
-        "id": selectedEmpresa.id,
-        "login": selectedEmpresa.login,
-        "nombre": selectedEmpresa.nombre_display
-      } : null,
+      // ========== LOCACIONES (3 OBLIGATORIAS) ==========
+      'locaciones': [
+        {
+          'descripcion': formData.aduanaPartidaDescripcion || 'Chile - Iquique',
+          'nombre': 'ADO',
+          'codigo': formData.aduanaPartidaCodigo || 'CLIQQ',
+          'nombre-deposito-fiscal': '',
+          'codigo-deposito-fiscal': ''
+        },
+        {
+          'descripcion': `Bolivia - ${getNombreCiudad(formData.ciudadDestinoCodigo || '')}`,
+          'nombre': 'LD',
+          'codigo': formData.ciudadDestinoCodigo || '',
+          'nombre-deposito-fiscal': formData.depositoFiscalNombre || '',
+          'codigo-deposito-fiscal': formData.depositoFiscalCodigo || ''
+        },
+        {
+          'descripcion': `Bolivia - ${getNombreCiudad(formData.aduanaDestinoCodigo || '')}`,
+          'nombre': 'ADD',
+          'codigo': formData.aduanaDestinoCodigo || '',
+          'nombre-deposito-fiscal': formData.aduanaDestinoDepositoNombre || '',
+          'codigo-deposito-fiscal': formData.aduanaDestinoDepositoCodigo || ''
+        }
+      ],
 
-      // Todos los datos del formulario
-      "formData": {
-        // Porteador
-        "porteador_nombre": formData.porteadorNombre,
-        "porteador_pais": formData.porteadorPais,
-        "porteador_comuna": formData.porteadorComuna,
-        "porteador_domicilio": formData.porteadorDomicilio,
-        "tipo_identificador": formData.tipoIdentificador,
-        "rol_contribuyente": formData.rolContribuyente,
-        "tipo_identificador2": formData.tipoIdentificador2,
-        "rol_contribuyente2": formData.rolContribuyente2,
-        
-        // Tránsito
-        "transito_aduanero": formData.transitoAduanero,
-        "tipo_operacion": formData.tipoOperacion,
-        "tipo_carga": formData.tipoCarga,
-        "tipo_transito": formData.tipoTransito,
-        "numero_referencia": formData.numeroReferencia,
-        "contenedor1": formData.contenedor1,
-        "contenedor2": formData.contenedor2,
-        
-        // Fechas
-        "hoja_folha": formData.hojaFolha,
-        "fecha_emision": formData.fechaEmision,
-        
-        // Aduana de partida (fijo)
-        "aduana_partida_codigo": formData.aduanaPartidaCodigo,
-        "aduana_partida_descripcion": formData.aduanaPartidaDescripcion,
-        "aduana_partida_codigo_numerico": formData.aduanaPartidaCodigoNumerico,
-        
-        // Propietario
-        "propietario_nombre": formData.propietarioNombre,
-        "propietario_pais": formData.propietarioPais,
-        "propietario_comuna": formData.propietarioComuna,
-        "propietario_domicilio": formData.propietarioDomicilio,
-        "propietario_tipo_id": formData.propietarioTipoId,
-        "propietario_rol": formData.propietarioRol,
-        
-        // Vehículo
-        "placa_camion": formData.placaCamion,
-        "pais_placa": formData.paisPlaca,
-        "marca": formData.marca,
-        "chassis": formData.chassis,
-        "capacidad_arrastre": formData.capacidadArrastre,
-        "anio": formData.anio,
-        "tipo_remolque": formData.tipoRemolque,
-        "placa_remolque": formData.placaRemolque,
-        "pais_remolque": formData.paisRemolque,
-        
-        // Carta porte
-        "numero_carta_porte": formData.numeroCartaPorte,
-        "es_parcial": formData.esParcial,
-        
-        // Valores
-        "moneda": formData.moneda,
-        "origen_mercancias": formData.origenMercancias,
-        "origen_mercancias_codigo": formData.origenMercanciasCodigo,
-        
-        // Bultos
-        "tipo_bultos": formData.tipoBultos,
-        "tipo_bultos_codigo": formData.tipoBultosCodigo,
-        "contenedor_vacio": formData.contenedorVacio,
-        "cantidad_bultos": formData.cantidadBultos,
-        "peso_bruto": formData.pesoBruto,
-        
-        // Participantes
-        "remitente_nombre": formData.remitenteNombre,
-        "remitente_domicilio": formData.remitenteDomicilio,
-        "destinatario_nombre": formData.destinatarioNombre,
-        "destinatario_domicilio": formData.destinatarioDomicilio,
-        "consignatario_nombre": formData.consignatarioNombre,
-        "consignatario_domicilio": formData.consignatarioDomicilio,
-        
-        // Documentos
-        "documentos_anexos": formData.documentosAnexos,
-        "numero_precintos": formData.numeroPrecintos,
-        "descripcion_mercancias": formData.descripcionMercancias,
-        
-        // Conductor
-        "tipo_id_conductor": formData.tipoIdConductor,
-        "id_conductor": formData.idConductor,
-        "nombre_conductor": formData.nombreConductor
+      // ========== PARTICIPACIONES ==========
+      'participaciones': [
+        {
+          'valor-id': formData.rolContribuyente || '',
+          'valor-id2': '',
+          'nombres': formData.porteadorNombre || '',
+          'direccion': formData.porteadorDomicilio || '',
+          'comuna': formData.porteadorComuna || '',
+          'tipo-id': 'RUT',
+          'tipo-id2': '',
+          'codigo-comuna': '',
+          'codigo-pais': 'CL',
+          'nacion-id': 'CL',
+          'nombre-pais': 'Chile',
+          'nombre': 'EMI'
+        },
+        {
+          'valor-id': formData.rolContribuyente || '',
+          'valor-id2': formData.propietarioRol || '',
+          'nombres': formData.porteadorNombre || '',
+          'direccion': formData.porteadorDomicilio || '',
+          'comuna': formData.porteadorComuna || '',
+          'tipo-id': 'RUT',
+          'tipo-id2': formData.propietarioTipoId || 'COD/NIT',
+          'codigo-comuna': '',
+          'codigo-pais': 'CL',
+          'nacion-id': 'CL',
+          'nombre-pais': 'Chile',
+          'nombre': 'EMIDO'
+        },
+        {
+          'valor-id': formData.propietarioRol || '',
+          'valor-id2': '',
+          'nombres': formData.propietarioNombre || '',
+          'direccion': formData.propietarioDomicilio || '',
+          'comuna': formData.propietarioComuna || '',
+          'tipo-id': formData.propietarioTipoId || 'COD/NIT',
+          'tipo-id2': '',
+          'codigo-comuna': '',
+          'codigo-pais': 'BO',
+          'nacion-id': 'BO',
+          'nombre-pais': 'Bolivia',
+          'nombre': 'PROP'
+        },
+        {
+          'valor-id': formData.idConductor || '',
+          'valor-id2': '',
+          'nombres': formData.nombreConductor || '',
+          'direccion': '',
+          'comuna': '',
+          'tipo-id': formData.tipoIdConductor || 'CI.',
+          'tipo-id2': '',
+          'codigo-comuna': '',
+          'codigo-pais': '',
+          'nacion-id': 'BO',
+          'nombre-pais': '',
+          'nombre': 'COND'
+        }
+      ],
+
+      // ========== OPERACIÓN DE TRANSPORTE ==========
+      'optransporte': {
+        'lastre': 'N',
+        'ruta': formData.ruta || '',
+        'remonta': 'N',
+        'sentido-operacion': 'S',
+        'vehiculos': [
+          {
+            'nacionalidad-vehiculo': formData.paisPlaca || 'BO',
+            'tipo': 'CMNTITULAR',
+            'chassis': formData.chassis || '',
+            'capacidad-arrastre': formData.capacidadArrastre || '',
+            'marca': formData.marca || '',
+            'desc-nacionalidad-vehiculo': getNombrePais(formData.paisPlaca || 'BO'),
+            'patente-vehiculo': formData.placaCamion || '',
+            'ano-vehiculo': formData.anio || ''
+          },
+          ...(formData.placaRemolque ? [{
+            'nacionalidad-vehiculo': formData.paisRemolque || 'BO',
+            'tipo': 'SRMTITULAR',
+            'chassis': '',
+            'capacidad-arrastre': '',
+            'marca': '',
+            'desc-nacionalidad-vehiculo': getNombrePais(formData.paisRemolque || 'BO'),
+            'patente-vehiculo': formData.placaRemolque || '',
+            'ano-vehiculo': ''
+          }] : [])
+        ]
       },
-      
-      // Datos extraídos del paso 3 (CRT + MIC Entrada)
-      ...extractedData
+
+      // ========== DOCUMENTOS (CRT) ==========
+      'documentos': [
+        {
+          'Locaciones': [
+            {
+              'descripcion': `Bolivia - ${getNombreCiudad(formData.aduanaDestinoCodigo || '')}`,
+              'nombre': 'ADD',
+              'codigo': formData.aduanaDestinoCodigo || ''
+            }
+          ],
+          'impr-aduana-destino': formData.aduanaDestinoCodigoNumerico || '',
+          'deposito-fiscal': formData.aduanaDestinoDepositoNombre || '',
+          'codigo-deposito': formData.aduanaDestinoDepositoCodigo || '',
+          'moneda': formData.moneda || 'USD',
+          'valor-seguro': formData.valorSeguro || '0.1',
+          'parcial': formData.esParcial === 'Si' ? 'S' : 'N',
+          'valor-fot': formData.valorFot || '0.1',
+          'dato-imprimir': formData.aduanaDestinoCodigoNumerico || '',
+          'valor-flete': formData.valorFlete || '0.0',
+          'numero': formData.numeroCartaPorte || '',
+          'origen-mercancia': formData.origenMercanciasCodigo || '',
+          'desc-origen-mercancia': formData.origenMercancias || '',
+          'nombre-remitente': formData.remitenteNombre || '',
+          'domicilio-remitente': formData.remitenteDomicilio || '',
+          'nombre-destinatario': formData.destinatarioNombre || '',
+          'domicilio-destinatario': formData.destinatarioDomicilio || '',
+          'nombre-consignatario': formData.consignatarioNombre || '',
+          'domicilio-consignatario': formData.consignatarioDomicilio || '',
+          'numero-dus': '',
+          'numero-guia': '',
+          'tipo-id-emisor': '',
+          'valor-id-emisor': '',
+          'nac-id-emisor': '',
+          'emisor': '',
+          'tipo': 'CP',
+          'fecha': '',
+          'Precintos': formData.numeroPrecintos
+            ? formData.numeroPrecintos.split(',').map((p: string) => ({
+                'numero': p.trim(),
+                'emisor': '',
+                'codigo': ''
+              }))
+            : [],
+          'DocumentosAnexos': formData.documentosAnexos ? [{
+            'numero': '',
+            'fecha': '',
+            'numero-dus': '',
+            'numero-guia': '',
+            'numero-reexpedicion': '',
+            'tipo-bulto': '',
+            'cantidad-bultos': '',
+            'peso-bruto': '',
+            'tipo-documento': formData.documentosAnexos
+          }] : [],
+          'Items': [
+            {
+              'marcas': formData.descripcionMercancias || '',
+              'descripcion': formData.descripcionMercancias || '',
+              'numero-item': '',
+              'peso-bruto': formData.pesoBruto || '0.0',
+              'cantidad': formData.cantidadBultos || '0',
+              'contenedor-vacio': formData.contenedorVacio ? 'SI' : 'NO',
+              'tipo-bulto': formData.tipoBultosCodigo || '',
+              'desc-tipo-bulto': formData.tipoBultos || '',
+              'codigo-tipo-bulto': ''
+            }
+          ]
+        }
+      ]
     };
 
     // 3. Llamar al backend Python para GENERAR el XML
