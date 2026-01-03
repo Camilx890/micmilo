@@ -110,6 +110,7 @@ export interface FormData {
   moneda: string;
   origenMercancias: string;
   origenMercanciasCodigo: string;
+  codigoOrigenMercancias: string;
   
   // Bultos
   tipoBultos: string;
@@ -233,6 +234,7 @@ const initialFormData: FormData = {
   moneda: 'USD',
   origenMercancias: '',
   origenMercanciasCodigo: '',
+  codigoOrigenMercancias: '',
   tipoBultos: '',
   tipoBultosCodigo: '',
   contenedorVacio: false,
