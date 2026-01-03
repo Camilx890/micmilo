@@ -421,7 +421,7 @@ export function FormSections() {
                 <Label htmlFor="ciudadDestinoCodigoNumerico">Código <span className="text-destructive">*</span></Label>
                 <Input
                   id="ciudadDestinoCodigoNumerico"
-                  value={formData.ciudadDestinoCodigoNumerico}
+                  value={formData.ciudadDestinoCodigoNumerico || '221'}
                   onChange={(e) => {
                     // Actualiza Campo 8 Y Campo 24 simultáneamente
                     updateFormData({
