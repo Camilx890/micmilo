@@ -787,6 +787,16 @@ export function FormSections() {
               </SelectContent>
             </Select>
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="codigoOrigenMercancias">Código Origen Mercancías</Label>
+            <Input
+              id="codigoOrigenMercancias"
+              value={formData.codigoOrigenMercancias || ''}
+              onChange={(e) => updateFormData({ codigoOrigenMercancias: e.target.value })}
+              placeholder="Ingrese código"
+              className="font-mono"
+            />
+          </div>
         </div>
       </SectionCard>
 

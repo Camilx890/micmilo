@@ -139,7 +139,7 @@ export function Step4Form() {
       'transito-aduanero-no': formData.transitoAduanero === 'No' ? 'X' : '',
       'descripcion-mercancias': formData.descripcionMercancias || '',
       'origen-mercancias': formData.origenMercanciasCodigo || '',
-      'codigo-mercancias': formData.aduanaDestinoCodigoNumerico || '',
+      'codigo-mercancias': formData.codigoOrigenMercancias || '',
       'tipo-carga': formData.tipoCarga || 'Carga General',
       'tipo-transito': formData.tipoTransito || 'Transito',
       'moneda': formData.moneda || 'USD',
