@@ -205,7 +205,7 @@ const initialFormData: FormData = {
   aduanaPartidaCodigoNumerico: '997',
   ciudadDestinoFinal: '',
   ciudadDestinoCodigo: '',
-  ciudadDestinoCodigoNumerico: '',
+  ciudadDestinoCodigoNumerico: '221',
   depositoFiscalNombre: '',
   depositoFiscalCodigo: '',
   propietarioNombre: '',
