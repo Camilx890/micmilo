@@ -351,7 +351,7 @@ export function Step4Form() {
             'peso-bruto': '',
             'tipo-documento': formData.documentosAnexos
           }] : [],
-          'Items': [
+          'items': [
             {
               'marcas': formData.descripcionMercancias || '',
               'descripcion': formData.descripcionMercancias || '',
