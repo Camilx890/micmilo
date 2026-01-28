@@ -161,17 +161,56 @@ export function Step3OperationMode() {
         formDataBackend.append('mic_entrada_data', JSON.stringify(micEntradaData));
       }
 
+      // ========== LOGGING DETALLADO ==========
+      console.log('📤 ========== ENVIANDO ARCHIVO CRT ==========');
+      console.log('📤 Archivo CRT:', {
+        name: crtFile.name,
+        size: crtFile.size,
+        type: crtFile.type,
+        lastModified: new Date(crtFile.lastModified).toISOString()
+      });
+      console.log('📤 URL destino:', `${API_BASE_URL}/extract`);
+      console.log('📤 Company ID:', selectedEmpresa.id);
+      console.log('📤 Mode:', conApoyo ? 'con_apoyo' : 'sin_apoyo');
+      console.log('📤 MIC Entrada Data:', micEntradaData ? 'presente' : 'no presente');
+      
+      // Log FormData entries
+      console.log('📤 FormData entries:');
+      for (const [key, value] of formDataBackend.entries()) {
+        if (value instanceof File) {
+          console.log(`   - ${key}: File(${value.name}, ${value.size} bytes, ${value.type})`);
+        } else {
+          console.log(`   - ${key}: ${typeof value === 'string' && value.length > 100 ? value.substring(0, 100) + '...' : value}`);
+        }
+      }
+      console.log('📤 ==========================================');
+
       const response = await fetch(`${API_BASE_URL}/extract`, {
         method: 'POST',
         body: formDataBackend
       });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Error al procesar el CRT");
+      // ========== LOGGING RESPUESTA ==========
+      console.log('📥 ========== RESPUESTA DEL BACKEND ==========');
+      console.log('📥 Response status:', response.status, response.statusText);
+      console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()));
+      
+      const responseText = await response.text();
+      console.log('📥 Response raw text:', responseText);
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+        console.log('📥 Response parsed JSON:', data);
+      } catch (parseError) {
+        console.error('❌ No es JSON válido:', responseText);
+        throw new Error(`Respuesta inválida del servidor: ${responseText.substring(0, 200)}`);
       }
+      console.log('📥 ==========================================');
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || `Error del servidor: ${response.status}`);
+      }
       
       console.log('🔍 ========== RESPUESTA EXTRACCIÓN CRT ==========');
       console.log('🔍 Respuesta completa:', data);
