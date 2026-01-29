@@ -22,6 +22,7 @@ export function Step3OperationMode() {
     setIsExtracting,
     setExtractedData,
     updateFormData,
+    formData,
   } = useMicStore();
   const { toast } = useToast();
   const [loadingMessage, setLoadingMessage] = useState("");
@@ -372,10 +373,27 @@ export function Step3OperationMode() {
         
         console.log('🔍 ========== LLAMANDO updateFormData ==========');
         console.log('🔍 Datos completos a guardar:', datosCompletos);
+        console.log('🔍 Claves en datosCompletos:', Object.keys(datosCompletos));
+        console.log('🔍 remitenteNombre en datosCompletos:', datosCompletos.remitenteNombre);
+        console.log('🔍 descripcionMercancias en datosCompletos:', datosCompletos.descripcionMercancias);
+        
+        // Verificar formData ANTES de actualizar
+        console.log('🔴 formData ANTES de updateFormData:', JSON.stringify(formData, null, 2));
         
         updateFormData(datosCompletos);
         
         console.log('✅ updateFormData ejecutado');
+        
+        // Verificar formData DESPUÉS de actualizar (usar setTimeout para ver el estado actualizado)
+        setTimeout(() => {
+          const storeState = useMicStore.getState();
+          console.log('🟢 === VERIFICACIÓN POST-UPDATE (setTimeout) ===');
+          console.log('🟢 formData DESPUÉS:', JSON.stringify(storeState.formData, null, 2));
+          console.log('🟢 remitenteNombre en store:', storeState.formData.remitenteNombre);
+          console.log('🟢 descripcionMercancias en store:', storeState.formData.descripcionMercancias);
+          console.log('🟢 pesoBruto en store:', storeState.formData.pesoBruto);
+          console.log('🟢 numeroBl en store:', storeState.formData.numeroBl);
+        }, 100);
 
         toast({
           title: "Extracción exitosa",
