@@ -233,20 +233,25 @@ export function Step3OperationMode() {
       console.log('🔍 crtData:', crtData);
       console.log('🔍 Campos recibidos:', Object.keys(crtData));
       
-      // Log de cada campo específico
-      console.log('🔍 --- CAMPOS ESPECÍFICOS ---');
-      console.log('🔍 numero_bl:', crtData.numero_bl);
-      console.log('🔍 numero_crt:', crtData.numero_crt);
-      console.log('🔍 sellos:', crtData.sellos);
-      console.log('🔍 documentos_anexos:', crtData.documentos_anexos);
-      console.log('🔍 remitente_nombre:', crtData.remitente_nombre);
-      console.log('🔍 destinatario_nombre:', crtData.destinatario_nombre);
-      console.log('🔍 consignatario_nombre:', crtData.consignatario_nombre);
-      console.log('🔍 descripcion_mercancia:', crtData.descripcion_mercancia);
-      console.log('🔍 valor_fot:', crtData.valor_fot);
-      console.log('🔍 valor_flete:', crtData.valor_flete);
-      console.log('🔍 peso_bruto:', crtData.peso_bruto);
-      console.log('🔍 bultos_cantidad:', crtData.bultos_cantidad);
+      // Log de cada campo específico (USANDO NOMBRES PASCALCASE DEL BACKEND)
+      console.log('🔍 --- CAMPOS ESPECÍFICOS (PascalCase) ---');
+      console.log('🔍 NombreRemitente:', crtData.NombreRemitente);
+      console.log('🔍 DomicilioRemitente:', crtData.DomicilioRemitente);
+      console.log('🔍 NombreDestinatario:', crtData.NombreDestinatario);
+      console.log('🔍 DomicilioDestinatario:', crtData.DomicilioDestinatario);
+      console.log('🔍 NombreConsignatario:', crtData.NombreConsignatario);
+      console.log('🔍 DomicilioConsignatario:', crtData.DomicilioConsignatario);
+      console.log('🔍 DescripcionMercancias:', crtData.DescripcionMercancias);
+      console.log('🔍 PesoBruto:', crtData.PesoBruto);
+      console.log('🔍 CantidadBultos:', crtData.CantidadBultos);
+      console.log('🔍 TipoBultos:', crtData.TipoBultos);
+      console.log('🔍 Contenedor1:', crtData.Contenedor1);
+      console.log('🔍 Contenedor2:', crtData.Contenedor2);
+      console.log('🔍 NumeroCartaPorte:', crtData.NumeroCartaPorte);
+      console.log('🔍 NumeroPrecintos:', crtData.NumeroPrecintos);
+      console.log('🔍 DocumentosAnexos:', crtData.DocumentosAnexos);
+      console.log('🔍 DestinoFinal:', crtData.DestinoFinal);
+      console.log('🔍 CodigoDestinoFinal:', crtData.CodigoDestinoFinal);
       console.log('🔍 ================================================');
       
       if (data.success) {
@@ -314,30 +319,27 @@ export function Step3OperationMode() {
           };
         }
 
-        // Datos extraídos del CRT - USANDO crtData (variable correcta)
+        // Datos extraídos del CRT - USANDO NOMBRES PASCALCASE DEL BACKEND
         const datosCRT = {
-          numeroBl: crtData.numero_bl || '',
-          numeroPrecintos: Array.isArray(crtData.sellos) ? crtData.sellos[0] : (crtData.sellos || ''),
-          documentosAnexos: crtData.documentos_anexos || '',
-          remitenteNombre: crtData.remitente_nombre || '',
-          remitenteDomicilio: crtData.remitente_domicilio || '',
-          destinatarioNombre: crtData.destinatario_nombre || '',
-          destinatarioDomicilio: crtData.destinatario_domicilio || '',
-          consignatarioNombre: crtData.consignatario_nombre || '',
-          consignatarioDomicilio: crtData.consignatario_domicilio || '',
-          descripcionMercancias: crtData.descripcion_mercancia || '',
-          cantidadBultos: String(crtData.bultos_cantidad || ''),
-          tipoBultos: crtData.bultos_tipo || '',
-          tipoBultosCodigo: crtData.bultos_tipo_codigo || '',
-          pesoBruto: String(crtData.peso_bruto || ''),
-          contenedor1: Array.isArray(crtData.contenedores) ? crtData.contenedores[0] : '',
-          contenedor2: Array.isArray(crtData.contenedores) ? crtData.contenedores[1] : '',
-          numeroCartaPorte: crtData.numero_crt || '',
-          origenMercanciasCodigo: crtData.remitente_pais || '',
-          aduanaDestinoCodigo: crtData.aduana_destino || '',
-          aduanaDestinoCodigoNumerico: crtData.aduana_destino_codigo || '',
-          valorFot: String(crtData.valor_fot || ''),
-          valorFlete: String(crtData.valor_flete || ''),
+          numeroBl: crtData.DocumentosAnexos || '', // DocumentosAnexos contiene el BL
+          numeroPrecintos: crtData.NumeroPrecintos || '',
+          documentosAnexos: crtData.DocumentosAnexos || '',
+          remitenteNombre: crtData.NombreRemitente || '',
+          remitenteDomicilio: crtData.DomicilioRemitente || '',
+          destinatarioNombre: crtData.NombreDestinatario || '',
+          destinatarioDomicilio: crtData.DomicilioDestinatario || '',
+          consignatarioNombre: crtData.NombreConsignatario || '',
+          consignatarioDomicilio: crtData.DomicilioConsignatario || '',
+          descripcionMercancias: crtData.DescripcionMercancias || '',
+          cantidadBultos: String(crtData.CantidadBultos || ''),
+          tipoBultos: crtData.TipoBultos || '',
+          pesoBruto: String(crtData.PesoBruto || ''),
+          contenedor1: crtData.Contenedor1 || '',
+          contenedor2: crtData.Contenedor2 || '',
+          numeroCartaPorte: crtData.NumeroCartaPorte || '',
+          ciudadDestinoFinal: crtData.DestinoFinal || '',
+          ciudadDestinoCodigo: crtData.DestinoFinal || '',
+          ciudadDestinoCodigoNumerico: crtData.CodigoDestinoFinal || '',
         };
 
         console.log('🔍 ========== DATOS A GUARDAR EN FORMDATA ==========');
