@@ -320,8 +320,17 @@ export function Step3OperationMode() {
         }
 
         // Datos extraídos del CRT - USANDO NOMBRES PASCALCASE DEL BACKEND
+        console.log('📝 ========== MAPEANDO CRT A FORMULARIO ==========');
+        console.log('📝 crtData objeto completo:', crtData);
+        console.log('📝 typeof crtData:', typeof crtData);
+        console.log('📝 crtData keys:', Object.keys(crtData || {}));
+        console.log('📝 crtData.NombreRemitente:', crtData.NombreRemitente);
+        console.log('📝 crtData.DescripcionMercancias:', crtData.DescripcionMercancias);
+        console.log('📝 crtData.PesoBruto:', crtData.PesoBruto);
+        console.log('📝 crtData.NumeroCartaPorte:', crtData.NumeroCartaPorte);
+        
         const datosCRT = {
-          numeroBl: crtData.DocumentosAnexos || '', // DocumentosAnexos contiene el BL
+          numeroBl: crtData.DocumentosAnexos || '',
           numeroPrecintos: crtData.NumeroPrecintos || '',
           documentosAnexos: crtData.DocumentosAnexos || '',
           remitenteNombre: crtData.NombreRemitente || '',
@@ -341,6 +350,11 @@ export function Step3OperationMode() {
           ciudadDestinoCodigo: crtData.DestinoFinal || '',
           ciudadDestinoCodigoNumerico: crtData.CodigoDestinoFinal || '',
         };
+
+        console.log('📝 datosCRT mapeado:', datosCRT);
+        console.log('📝 remitenteNombre después de mapear:', datosCRT.remitenteNombre);
+        console.log('📝 descripcionMercancias después de mapear:', datosCRT.descripcionMercancias);
+        console.log('📝 ================================================');
 
         console.log('🔍 ========== DATOS A GUARDAR EN FORMDATA ==========');
         console.log('🔍 datosEmpresa:', datosEmpresa);
