@@ -384,7 +384,13 @@ export function Step3OperationMode() {
         
         console.log('✅ updateFormData ejecutado');
         
-        // Verificar formData DESPUÉS de actualizar (usar setTimeout para ver el estado actualizado)
+        toast({
+          title: "Extracción exitosa",
+          description: `Datos extraídos. Referencia: ${numeroReferencia}`,
+        });
+        
+        // IMPORTANTE: Navegar a Step 4 en el siguiente tick para asegurar que el store se haya actualizado
+        // Esto soluciona el problema donde Step4 se montaba antes de que los datos estuvieran en el store
         setTimeout(() => {
           const storeState = useMicStore.getState();
           console.log('🟢 === VERIFICACIÓN POST-UPDATE (setTimeout) ===');
@@ -393,14 +399,10 @@ export function Step3OperationMode() {
           console.log('🟢 descripcionMercancias en store:', storeState.formData.descripcionMercancias);
           console.log('🟢 pesoBruto en store:', storeState.formData.pesoBruto);
           console.log('🟢 numeroBl en store:', storeState.formData.numeroBl);
-        }, 100);
-
-        toast({
-          title: "Extracción exitosa",
-          description: `Datos extraídos. Referencia: ${numeroReferencia}`,
-        });
-        
-        setCurrentStep(4);
+          
+          // Navegar a Step 4 DESPUÉS de que el store se actualizó
+          setCurrentStep(4);
+        }, 50);
       } else {
         throw new Error(data.message || "Error en la respuesta del servidor");
       }
