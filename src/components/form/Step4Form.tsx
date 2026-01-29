@@ -76,9 +76,7 @@ export function Step4Form() {
     const validaciones = [
       { campo: 'valorFot', nombre: 'Valor FOT' },
       { campo: 'valorFlete', nombre: 'Valor Flete' },
-      { campo: 'ruta', nombre: 'Ruta' },
-      { campo: 'ciudadDestinoCodigo', nombre: 'Ciudad destino final (Campo 8)' },
-      { campo: 'ciudadDestinoCodigoNumerico', nombre: 'Código Campo 8' }
+      { campo: 'ruta', nombre: 'Ruta' }
     ];
 
     const camposFaltantes = validaciones
