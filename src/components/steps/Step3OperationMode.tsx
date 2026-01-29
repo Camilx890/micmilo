@@ -212,23 +212,45 @@ export function Step3OperationMode() {
         throw new Error(data.message || `Error del servidor: ${response.status}`);
       }
       
-      console.log('🔍 ========== RESPUESTA EXTRACCIÓN CRT ==========');
-      console.log('🔍 Respuesta completa:', data);
+      // ========== LOGGING EXTENSIVO DE RESPUESTA ==========
+      console.log('🔍 ========== RESPUESTA /extract COMPLETA ==========');
+      console.log('🔍 Success:', data.success);
+      console.log('🔍 Keys de la respuesta:', Object.keys(data));
+      console.log('🔍 Respuesta completa JSON:', JSON.stringify(data, null, 2));
+      
+      // Verificar ambas posibles estructuras de datos CRT
+      console.log('🔍 --- BUSCANDO DATOS CRT ---');
+      console.log('🔍 data.datos_crt (snake_case):', data.datos_crt);
+      console.log('🔍 data.crt_extracted:', data.crt_extracted);
       console.log('🔍 data.data:', data.data);
-      console.log('🔍 --- crt_extracted (datos del CRT) ---');
-      console.log('🔍 crt_extracted:', data.crt_extracted);
-      console.log('🔍 crt_extracted.numero_bl:', data.crt_extracted?.numero_bl);
-      console.log('🔍 crt_extracted.numero_crt:', data.crt_extracted?.numero_crt);
-      console.log('🔍 crt_extracted.sellos:', data.crt_extracted?.sellos);
-      console.log('🔍 crt_extracted.documentos_anexos:', data.crt_extracted?.documentos_anexos);
-      console.log('🔍 crt_extracted.remitente_nombre:', data.crt_extracted?.remitente_nombre);
-      console.log('🔍 crt_extracted.destinatario_nombre:', data.crt_extracted?.destinatario_nombre);
-      console.log('🔍 crt_extracted.consignatario_nombre:', data.crt_extracted?.consignatario_nombre);
-      console.log('🔍 crt_extracted.descripcion_mercancia:', data.crt_extracted?.descripcion_mercancia);
+      console.log('🔍 data.data?.crt_extracted:', data.data?.crt_extracted);
+      console.log('🔍 data.data?.datos_crt:', data.data?.datos_crt);
+      
+      // USAR LA ESTRUCTURA CORRECTA: datos_crt o crt_extracted
+      const crtData = data.datos_crt || data.crt_extracted || data.data?.crt_extracted || data.data?.datos_crt || {};
+      
+      console.log('🔍 --- DATOS CRT ENCONTRADOS ---');
+      console.log('🔍 crtData:', crtData);
+      console.log('🔍 Campos recibidos:', Object.keys(crtData));
+      
+      // Log de cada campo específico
+      console.log('🔍 --- CAMPOS ESPECÍFICOS ---');
+      console.log('🔍 numero_bl:', crtData.numero_bl);
+      console.log('🔍 numero_crt:', crtData.numero_crt);
+      console.log('🔍 sellos:', crtData.sellos);
+      console.log('🔍 documentos_anexos:', crtData.documentos_anexos);
+      console.log('🔍 remitente_nombre:', crtData.remitente_nombre);
+      console.log('🔍 destinatario_nombre:', crtData.destinatario_nombre);
+      console.log('🔍 consignatario_nombre:', crtData.consignatario_nombre);
+      console.log('🔍 descripcion_mercancia:', crtData.descripcion_mercancia);
+      console.log('🔍 valor_fot:', crtData.valor_fot);
+      console.log('🔍 valor_flete:', crtData.valor_flete);
+      console.log('🔍 peso_bruto:', crtData.peso_bruto);
+      console.log('🔍 bultos_cantidad:', crtData.bultos_cantidad);
       console.log('🔍 ================================================');
       
       if (data.success) {
-        setExtractedData(data.data);
+        setExtractedData(data.data || data);
         
         const numeroReferencia = generateRandomReference();
         
@@ -260,19 +282,15 @@ export function Step3OperationMode() {
           placaRemolque: micEntradaData.remolque?.placa || "",
           paisRemolque: micEntradaData.camion?.pais || "BO",
           nombreConductor: micEntradaData.conductor?.nombre || "",
-          // Mapear CI -> CI. porque el dropdown requiere el punto
           tipoIdConductor: micEntradaData.conductor?.tipo_id === "CI" ? "CI." : (micEntradaData.conductor?.tipo_id || ""),
           idConductor: micEntradaData.conductor?.identificador || "",
         } : {};
         
         console.log('🔍 DEBUG datosVehiculo:', datosVehiculo);
-        console.log('🔍 tipoIdConductor extraído (raw):', micEntradaData?.conductor?.tipo_id);
-        console.log('🔍 tipoIdConductor mapeado:', datosVehiculo.tipoIdConductor);
 
         // CONDICIONAL: Datos del propietario y rol2 según modo
         let datosPropietario;
         if (conApoyo && micEntradaData) {
-          // CON APOYO: Usar datos del MIC Entrada + rol2 con datos del propietario
           datosPropietario = {
             propietarioNombre: micEntradaData.propietario?.nombre || "",
             propietarioDomicilio: micEntradaData.propietario?.direccion || "",
@@ -281,15 +299,10 @@ export function Step3OperationMode() {
             propietarioPais: "BO",
             propietarioComuna: "",
             permisoResolucion: buildPermisoResolucion(micEntradaData),
-            // En CON APOYO: tipoIdentificador2 y rolContribuyente2 = datos del propietario del MIC
             tipoIdentificador2: "COD/NIT",
             rolContribuyente2: micEntradaData.propietario?.rol || "",
           };
-          console.log('🔍 GUARDADO CON APOYO:');
-          console.log('  - rolContribuyente2:', micEntradaData.propietario?.rol);
-          console.log('  - tipoIdentificador2: COD/NIT');
         } else {
-          // SIN APOYO: Usar datos del PORTEADOR (no hay rol2)
           datosPropietario = {
             propietarioNombre: selectedEmpresa.campo_1_porteador.nombre,
             propietarioDomicilio: selectedEmpresa.campo_1_porteador.domicilio,
@@ -298,48 +311,55 @@ export function Step3OperationMode() {
             propietarioPais: "CL",
             propietarioComuna: selectedEmpresa.campo_1_porteador.comuna,
             permisoResolucion: micEntradaData ? buildPermisoResolucion(micEntradaData) : "",
-            // En SIN APOYO: mantener los valores de la empresa (ya están en datosEmpresa)
           };
         }
 
-        console.log('🔍 Modo:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
-        console.log('🔍 Datos propietario a guardar:', datosPropietario);
-
-        // Datos extraídos del CRT
+        // Datos extraídos del CRT - USANDO crtData (variable correcta)
         const datosCRT = {
-          numeroBl: data.crt_extracted?.numero_bl || '',
-          numeroPrecintos: data.crt_extracted?.sellos?.[0] || '',
-          documentosAnexos: data.crt_extracted?.documentos_anexos || '',
-          remitenteNombre: data.crt_extracted?.remitente_nombre || '',
-          remitenteDomicilio: data.crt_extracted?.remitente_domicilio || '',
-          destinatarioNombre: data.crt_extracted?.destinatario_nombre || '',
-          destinatarioDomicilio: data.crt_extracted?.destinatario_domicilio || '',
-          consignatarioNombre: data.crt_extracted?.consignatario_nombre || '',
-          consignatarioDomicilio: data.crt_extracted?.consignatario_domicilio || '',
-          descripcionMercancias: data.crt_extracted?.descripcion_mercancia || '',
-          cantidadBultos: String(data.crt_extracted?.bultos_cantidad || ''),
-          tipoBultos: data.crt_extracted?.bultos_tipo || '',
-          tipoBultosCodigo: data.crt_extracted?.bultos_tipo_codigo || '',
-          pesoBruto: String(data.crt_extracted?.peso_bruto || ''),
-          contenedor1: data.crt_extracted?.contenedores?.[0] || '',
-          contenedor2: data.crt_extracted?.contenedores?.[1] || '',
-          numeroCartaPorte: data.crt_extracted?.numero_crt || '',
-          origenMercanciasCodigo: data.crt_extracted?.remitente_pais || '',
-          aduanaDestinoCodigo: data.crt_extracted?.aduana_destino || '',
-          aduanaDestinoCodigoNumerico: data.crt_extracted?.aduana_destino_codigo || '',
-          // Nuevos campos del CRT
-          valorFot: data.crt_extracted?.valor_fot || '',
-          valorFlete: data.crt_extracted?.valor_flete || '',
+          numeroBl: crtData.numero_bl || '',
+          numeroPrecintos: Array.isArray(crtData.sellos) ? crtData.sellos[0] : (crtData.sellos || ''),
+          documentosAnexos: crtData.documentos_anexos || '',
+          remitenteNombre: crtData.remitente_nombre || '',
+          remitenteDomicilio: crtData.remitente_domicilio || '',
+          destinatarioNombre: crtData.destinatario_nombre || '',
+          destinatarioDomicilio: crtData.destinatario_domicilio || '',
+          consignatarioNombre: crtData.consignatario_nombre || '',
+          consignatarioDomicilio: crtData.consignatario_domicilio || '',
+          descripcionMercancias: crtData.descripcion_mercancia || '',
+          cantidadBultos: String(crtData.bultos_cantidad || ''),
+          tipoBultos: crtData.bultos_tipo || '',
+          tipoBultosCodigo: crtData.bultos_tipo_codigo || '',
+          pesoBruto: String(crtData.peso_bruto || ''),
+          contenedor1: Array.isArray(crtData.contenedores) ? crtData.contenedores[0] : '',
+          contenedor2: Array.isArray(crtData.contenedores) ? crtData.contenedores[1] : '',
+          numeroCartaPorte: crtData.numero_crt || '',
+          origenMercanciasCodigo: crtData.remitente_pais || '',
+          aduanaDestinoCodigo: crtData.aduana_destino || '',
+          aduanaDestinoCodigoNumerico: crtData.aduana_destino_codigo || '',
+          valorFot: String(crtData.valor_fot || ''),
+          valorFlete: String(crtData.valor_flete || ''),
         };
 
-        console.log('🔍 Datos CRT mapeados:', datosCRT);
+        console.log('🔍 ========== DATOS A GUARDAR EN FORMDATA ==========');
+        console.log('🔍 datosEmpresa:', datosEmpresa);
+        console.log('🔍 datosVehiculo:', datosVehiculo);
+        console.log('🔍 datosPropietario:', datosPropietario);
+        console.log('🔍 datosCRT:', datosCRT);
+        console.log('🔍 ================================================');
 
-        updateFormData({
+        const datosCompletos = {
           ...datosEmpresa,
           ...datosVehiculo,
           ...datosPropietario,
           ...datosCRT,
-        });
+        };
+        
+        console.log('🔍 ========== LLAMANDO updateFormData ==========');
+        console.log('🔍 Datos completos a guardar:', datosCompletos);
+        
+        updateFormData(datosCompletos);
+        
+        console.log('✅ updateFormData ejecutado');
 
         toast({
           title: "Extracción exitosa",
