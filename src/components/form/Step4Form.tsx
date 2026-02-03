@@ -76,7 +76,11 @@ export function Step4Form() {
     const validaciones = [
       { campo: 'valorFot', nombre: 'Valor FOT' },
       { campo: 'valorFlete', nombre: 'Valor Flete' },
-      { campo: 'ruta', nombre: 'Ruta' }
+      { campo: 'ruta', nombre: 'Ruta' },
+      { campo: 'ciudadDestinoCodigo', nombre: 'Ciudad destino final (Campo 8)' },
+      { campo: 'ciudadDestinoCodigoNumerico', nombre: 'Código Campo 8' },
+      { campo: 'aduanaDestinoCodigo', nombre: 'Aduana de destino (Campo 24)' },
+      { campo: 'aduanaDestinoCodigoNumerico', nombre: 'Código Campo 24' }
     ];
 
     const camposFaltantes = validaciones
@@ -124,30 +128,30 @@ export function Step4Form() {
 
     const xmlData = {
       // ========== CAMPOS RAÍZ ==========
-      'permiso_resolucion': permisoResolucion,
-      'impr_aduana_destino': formData.aduanaDestinoCodigoNumerico || '',
-      'tipo_manifiesto': 'S',
+      'permiso-resolucion': permisoResolucion,
+      'impr-aduana-destino': formData.aduanaDestinoCodigoNumerico || '',
+      'tipo-manifiesto': 'S',
       'login': selectedEmpresa?.login || '',
-      'numero_aduana_origen': '',
-      'impr_lugar_destino': formData.ciudadDestinoCodigoNumerico || '',
-      'impr_aduana_origen': formData.aduanaPartidaCodigoNumerico || '997',
-      'transito_aduanero_si': formData.transitoAduanero === 'Si' ? 'X' : '',
-      'transito_aduanero_no': formData.transitoAduanero === 'No' ? 'X' : '',
-      'descripcion_mercancias': formData.descripcionMercancias || '',
-      'origen_mercancias': formData.origenMercanciasCodigo || '',
-      'codigo_mercancias': formData.codigoOrigenMercancias || '',
-      'tipo_carga': formData.tipoCarga || 'Carga General',
-      'tipo_transito': formData.tipoTransito || 'Transito',
+      'numero-aduana-origen': '',
+      'impr-lugar-destino': formData.ciudadDestinoCodigoNumerico || '',
+      'impr-aduana-origen': formData.aduanaPartidaCodigoNumerico || '997',
+      'transito-aduanero-si': formData.transitoAduanero === 'Si' ? 'X' : '',
+      'transito-aduanero-no': formData.transitoAduanero === 'No' ? 'X' : '',
+      'descripcion-mercancias': formData.descripcionMercancias || '',
+      'origen-mercancias': formData.origenMercanciasCodigo || '',
+      'codigo-mercancias': formData.codigoOrigenMercancias || '',
+      'tipo-carga': formData.tipoCarga || 'Carga General',
+      'tipo-transito': formData.tipoTransito || 'Transito',
       'moneda': formData.moneda || 'USD',
-      'deposito_fiscal': formData.depositoFiscalNombre || '',
-      'codigo_deposito': formData.depositoFiscalCodigo || '',
-      'numero_contenedor1': formData.contenedor1 || '',
-      'numero_contenedor2': formData.contenedor2 || '',
-      'total_bultos': formData.cantidadBultos || '0',
-      'total_peso_bruto': formData.pesoBruto || '0.0',
-      'carga_peligrosa': 'N',
-      'numero_referencia': formData.numeroReferencia || '',
-      'id_sender': 'MIC-DTA 1.0',
+      'deposito-fiscal': formData.depositoFiscalNombre || '',
+      'codigo-deposito': formData.depositoFiscalCodigo || '',
+      'numero-contenedor1': formData.contenedor1 || '',
+      'numero-contenedor2': formData.contenedor2 || '',
+      'total-bultos': formData.cantidadBultos || '0',
+      'total-peso-bruto': formData.pesoBruto || '0.0',
+      'carga-peligrosa': 'N',
+      'numero-referencia': formData.numeroReferencia || '',
+      'id-sender': 'MIC-DTA 1.0',
 
       // ========== FECHAS ==========
       'fechas': {
@@ -163,63 +167,66 @@ export function Step4Form() {
           'descripcion': formData.aduanaPartidaDescripcion || 'Chile - Iquique',
           'nombre': 'ADO',
           'codigo': formData.aduanaPartidaCodigo || 'CLIQQ',
-          'nombre_deposito_fiscal': '',
-          'codigo_deposito_fiscal': ''
+          'nombre-deposito-fiscal': '',
+          'codigo-deposito-fiscal': ''
         },
         {
           'descripcion': `Bolivia - ${getNombreCiudad(formData.ciudadDestinoCodigo || '')}`,
           'nombre': 'LD',
           'codigo': formData.ciudadDestinoCodigo || '',
-          'nombre_deposito_fiscal': formData.depositoFiscalNombre || '',
-          'codigo_deposito_fiscal': formData.depositoFiscalCodigo || ''
+          'nombre-deposito-fiscal': formData.depositoFiscalNombre || '',
+          'codigo-deposito-fiscal': formData.depositoFiscalCodigo || ''
         },
         {
           'descripcion': `Bolivia - ${getNombreCiudad(formData.aduanaDestinoCodigo || '')}`,
           'nombre': 'ADD',
           'codigo': formData.aduanaDestinoCodigo || '',
-          'nombre_deposito_fiscal': formData.aduanaDestinoDepositoNombre || '',
-          'codigo_deposito_fiscal': formData.aduanaDestinoDepositoCodigo || ''
+          'nombre-deposito-fiscal': formData.aduanaDestinoDepositoNombre || '',
+          'codigo-deposito-fiscal': formData.aduanaDestinoDepositoCodigo || ''
         }
       ],
 
       // ========== PARTICIPACIONES ==========
+      // LÓGICA CON APOYO vs SIN APOYO afecta EMIDO y PROP
       'participaciones': [
         // EMI - Siempre igual (porteador)
         {
-          'valor_id': formData.rolContribuyente || '',
-          'valor_id2': '',
+          'valor-id': formData.rolContribuyente || '',
+          'valor-id2': '',
           'nombres': formData.porteadorNombre || '',
           'direccion': formData.porteadorDomicilio || '',
           'comuna': formData.porteadorComuna || '',
-          'tipo_id': 'RUT',
-          'tipo_id2': '',
-          'codigo_comuna': '',
-          'codigo_pais': 'CL',
-          'nacion_id': 'CL',
-          'nombre_pais': 'Chile',
+          'tipo-id': 'RUT',
+          'tipo-id2': '',
+          'codigo-comuna': '',
+          'codigo-pais': 'CL',
+          'nacion-id': 'CL',
+          'nombre-pais': 'Chile',
           'nombre': 'EMI'
         },
-        // EMIDO - CON APOYO: agrega valor_id2 y tipo_id2 del propietario
+        // EMIDO - CON APOYO: agrega valor-id2 y tipo-id2 del propietario
         {
-          'valor_id': formData.rolContribuyente || '',
-          'valor_id2': conApoyo ? (formData.propietarioRol || '') : '',
+          'valor-id': formData.rolContribuyente || '',
+          'valor-id2': conApoyo ? (formData.propietarioRol || '') : '',
           'nombres': formData.porteadorNombre || '',
           'direccion': formData.porteadorDomicilio || '',
           'comuna': formData.porteadorComuna || '',
-          'tipo_id': formData.tipoIdentificador || 'RUT',
-          'tipo_id2': conApoyo ? 'COD/NIT' : '',
-          'codigo_comuna': '',
-          'codigo_pais': 'CL',
-          'nacion_id': 'CL',
-          'nombre_pais': 'Chile',
+          'tipo-id': formData.tipoIdentificador || 'RUT',
+          'tipo-id2': conApoyo ? 'COD/NIT' : '',
+          'codigo-comuna': '',
+          'codigo-pais': 'CL',
+          'nacion-id': 'CL',
+          'nombre-pais': 'Chile',
           'nombre': 'EMIDO'
         },
         // PROP - Siempre usa formData.propietarioXXX primero, con fallback según modo
+        // En SIN APOYO: fallback a datos del porteador
+        // En CON APOYO: fallback vacío (datos vienen del MIC Entrada)
         {
-          'valor_id': conApoyo 
+          'valor-id': conApoyo 
             ? (formData.propietarioRol || '') 
             : (formData.propietarioRol || formData.rolContribuyente || ''),
-          'valor_id2': '',
+          'valor-id2': '',
           'nombres': conApoyo
             ? (formData.propietarioNombre || '')
             : (formData.propietarioNombre || formData.porteadorNombre || ''),
@@ -227,35 +234,35 @@ export function Step4Form() {
             ? (formData.propietarioDomicilio || '')
             : (formData.propietarioDomicilio || formData.porteadorDomicilio || ''),
           'comuna': conApoyo ? '' : (formData.propietarioComuna || formData.porteadorComuna || ''),
-          'tipo_id': conApoyo 
+          'tipo-id': conApoyo 
             ? (formData.propietarioTipoId || 'COD/NIT')
             : (formData.propietarioTipoId || 'RUT'),
-          'tipo_id2': '',
-          'codigo_comuna': '',
-          'codigo_pais': conApoyo 
+          'tipo-id2': '',
+          'codigo-comuna': '',
+          'codigo-pais': conApoyo 
             ? (formData.propietarioPais || 'BO')
             : (formData.propietarioPais || 'CL'),
-          'nacion_id': conApoyo
+          'nacion-id': conApoyo
             ? (formData.propietarioPais || 'BO')
             : (formData.propietarioPais || 'CL'),
-          'nombre_pais': conApoyo 
+          'nombre-pais': conApoyo 
             ? getNombrePais(formData.propietarioPais || 'BO')
             : getNombrePais(formData.propietarioPais || 'CL'),
           'nombre': 'PROP'
         },
         // COND - Siempre igual (conductor)
         {
-          'valor_id': formData.idConductor || '',
-          'valor_id2': '',
+          'valor-id': formData.idConductor || '',
+          'valor-id2': '',
           'nombres': formData.nombreConductor || '',
           'direccion': '',
           'comuna': '',
-          'tipo_id': formData.tipoIdConductor || 'CI.',
-          'tipo_id2': '',
-          'codigo_comuna': '',
-          'codigo_pais': '',
-          'nacion_id': 'BO',
-          'nombre_pais': '',
+          'tipo-id': formData.tipoIdConductor || 'CI.',
+          'tipo-id2': '',
+          'codigo-comuna': '',
+          'codigo-pais': '',
+          'nacion-id': 'BO',
+          'nombre-pais': '',
           'nombre': 'COND'
         }
       ],
@@ -265,27 +272,27 @@ export function Step4Form() {
         'lastre': 'N',
         'ruta': formData.ruta || '',
         'remonta': 'N',
-        'sentido_operacion': 'S',
+        'sentido-operacion': 'S',
         'vehiculos': [
           {
-            'nacionalidad_vehiculo': formData.paisPlaca || 'BO',
+            'nacionalidad-vehiculo': formData.paisPlaca || 'BO',
             'tipo': 'CMNTITULAR',
             'chassis': formData.chassis || '',
-            'capacidad_arrastre': formData.capacidadArrastre || '',
+            'capacidad-arrastre': formData.capacidadArrastre || '',
             'marca': formData.marca || '',
-            'desc_nacionalidad_vehiculo': getNombrePais(formData.paisPlaca || 'BO'),
-            'patente_vehiculo': formData.placaCamion || '',
-            'ano_vehiculo': formData.anio || ''
+            'desc-nacionalidad-vehiculo': getNombrePais(formData.paisPlaca || 'BO'),
+            'patente-vehiculo': formData.placaCamion || '',
+            'ano-vehiculo': formData.anio || ''
           },
           ...(formData.placaRemolque ? [{
-            'nacionalidad_vehiculo': formData.paisRemolque || 'BO',
+            'nacionalidad-vehiculo': formData.paisRemolque || 'BO',
             'tipo': 'SRMTITULAR',
             'chassis': '',
-            'capacidad_arrastre': '',
+            'capacidad-arrastre': '',
             'marca': '',
-            'desc_nacionalidad_vehiculo': getNombrePais(formData.paisRemolque || 'BO'),
-            'patente_vehiculo': formData.placaRemolque || '',
-            'ano_vehiculo': ''
+            'desc-nacionalidad-vehiculo': getNombrePais(formData.paisRemolque || 'BO'),
+            'patente-vehiculo': formData.placaRemolque || '',
+            'ano-vehiculo': ''
           }] : [])
         ]
       },
@@ -300,29 +307,29 @@ export function Step4Form() {
               'codigo': formData.aduanaDestinoCodigo || ''
             }
           ],
-          'impr_aduana_destino': formData.aduanaDestinoCodigoNumerico || '',
-          'deposito_fiscal': formData.aduanaDestinoDepositoNombre || '',
-          'codigo_deposito': formData.aduanaDestinoDepositoCodigo || '',
+          'impr-aduana-destino': formData.aduanaDestinoCodigoNumerico || '',
+          'deposito-fiscal': formData.aduanaDestinoDepositoNombre || '',
+          'codigo-deposito': formData.aduanaDestinoDepositoCodigo || '',
           'moneda': formData.moneda || 'USD',
-          'valor_seguro': formData.valorSeguro || '0.1',
+          'valor-seguro': formData.valorSeguro || '0.1',
           'parcial': formData.esParcial === 'Si' ? 'S' : 'N',
-          'valor_fot': formData.valorFot || '0.1',
-          'dato_imprimir': formData.aduanaDestinoCodigoNumerico || '',
-          'valor_flete': formData.valorFlete || '0.0',
+          'valor-fot': formData.valorFot || '0.1',
+          'dato-imprimir': formData.aduanaDestinoCodigoNumerico || '',
+          'valor-flete': formData.valorFlete || '0.0',
           'numero': formData.numeroCartaPorte || '',
-          'origen_mercancia': formData.origenMercanciasCodigo || '',
-          'desc_origen_mercancia': formData.origenMercancias || '',
-          'nombre_remitente': formData.remitenteNombre || '',
-          'domicilio_remitente': formData.remitenteDomicilio || '',
-          'nombre_destinatario': formData.destinatarioNombre || '',
-          'domicilio_destinatario': formData.destinatarioDomicilio || '',
-          'nombre_consignatario': formData.consignatarioNombre || '',
-          'domicilio_consignatario': formData.consignatarioDomicilio || '',
-          'numero_dus': '',
-          'numero_guia': '',
-          'tipo_id_emisor': '',
-          'valor_id_emisor': '',
-          'nac_id_emisor': '',
+          'origen-mercancia': formData.origenMercanciasCodigo || '',
+          'desc-origen-mercancia': formData.origenMercancias || '',
+          'nombre-remitente': formData.remitenteNombre || '',
+          'domicilio-remitente': formData.remitenteDomicilio || '',
+          'nombre-destinatario': formData.destinatarioNombre || '',
+          'domicilio-destinatario': formData.destinatarioDomicilio || '',
+          'nombre-consignatario': formData.consignatarioNombre || '',
+          'domicilio-consignatario': formData.consignatarioDomicilio || '',
+          'numero-dus': '',
+          'numero-guia': '',
+          'tipo-id-emisor': '',
+          'valor-id-emisor': '',
+          'nac-id-emisor': '',
           'emisor': '',
           'tipo': 'CP',
           'fecha': '',
@@ -333,28 +340,28 @@ export function Step4Form() {
                 'codigo': ''
               }))
             : [],
-          'documentos_anexos': formData.documentosAnexos ? [{
+          'documentos-anexos': formData.documentosAnexos ? [{
             'numero': '',
             'fecha': '',
-            'numero_dus': '',
-            'numero_guia': '',
-            'numero_reexpedicion': '',
-            'tipo_bulto': '',
-            'cantidad_bultos': '',
-            'peso_bruto': '',
-            'tipo_documento': formData.documentosAnexos
+            'numero-dus': '',
+            'numero-guia': '',
+            'numero-reexpedicion': '',
+            'tipo-bulto': '',
+            'cantidad-bultos': '',
+            'peso-bruto': '',
+            'tipo-documento': formData.documentosAnexos
           }] : [],
           'items': [
             {
               'marcas': formData.descripcionMercancias || '',
               'descripcion': formData.descripcionMercancias || '',
-              'numero_item': '',
-              'peso_bruto': formData.pesoBruto || '0.0',
+              'numero-item': '',
+              'peso-bruto': formData.pesoBruto || '0.0',
               'cantidad': formData.cantidadBultos || '0',
-              'contenedor_vacio': formData.contenedorVacio ? 'SI' : 'NO',
-              'tipo_bulto': formData.tipoBultosCodigo || '',
-              'desc_tipo_bulto': formData.tipoBultos || '',
-              'codigo_tipo_bulto': ''
+              'contenedor-vacio': formData.contenedorVacio ? 'SI' : 'NO',
+              'tipo-bulto': formData.tipoBultosCodigo || '',
+              'desc-tipo-bulto': formData.tipoBultos || '',
+              'codigo-tipo-bulto': ''
             }
           ]
         }
@@ -367,11 +374,8 @@ export function Step4Form() {
 
     const backendUrl = 'https://api.xn--salteeriamaria-unb.com:9443/generate-xml';
     
-    console.log('🔍 === DATOS ENVIADOS AL BACKEND ===');
-    console.log('xmlData completo:', JSON.stringify(xmlData, null, 2));
-    console.log('Primeros 10 campos:', Object.keys(xmlData).slice(0, 10));
-    console.log('=====================================');
     console.log('🚀 Llamando a backend:', backendUrl);
+    console.log('📦 Datos enviados:', JSON.stringify(xmlData, null, 2));
 
     try {
       const response = await fetch(backendUrl, {

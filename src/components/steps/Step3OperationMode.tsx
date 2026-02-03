@@ -22,7 +22,6 @@ export function Step3OperationMode() {
     setIsExtracting,
     setExtractedData,
     updateFormData,
-    formData,
   } = useMicStore();
   const { toast } = useToast();
   const [loadingMessage, setLoadingMessage] = useState("");
@@ -162,101 +161,35 @@ export function Step3OperationMode() {
         formDataBackend.append('mic_entrada_data', JSON.stringify(micEntradaData));
       }
 
-      // ========== LOGGING DETALLADO ==========
-      console.log('📤 ========== ENVIANDO ARCHIVO CRT ==========');
-      console.log('📤 Archivo CRT:', {
-        name: crtFile.name,
-        size: crtFile.size,
-        type: crtFile.type,
-        lastModified: new Date(crtFile.lastModified).toISOString()
-      });
-      console.log('📤 URL destino:', `${API_BASE_URL}/extract`);
-      console.log('📤 Company ID:', selectedEmpresa.id);
-      console.log('📤 Mode:', conApoyo ? 'con_apoyo' : 'sin_apoyo');
-      console.log('📤 MIC Entrada Data:', micEntradaData ? 'presente' : 'no presente');
-      
-      // Log FormData entries
-      console.log('📤 FormData entries:');
-      for (const [key, value] of formDataBackend.entries()) {
-        if (value instanceof File) {
-          console.log(`   - ${key}: File(${value.name}, ${value.size} bytes, ${value.type})`);
-        } else {
-          console.log(`   - ${key}: ${typeof value === 'string' && value.length > 100 ? value.substring(0, 100) + '...' : value}`);
-        }
-      }
-      console.log('📤 ==========================================');
-
       const response = await fetch(`${API_BASE_URL}/extract`, {
         method: 'POST',
         body: formDataBackend
       });
 
-      // ========== LOGGING RESPUESTA ==========
-      console.log('📥 ========== RESPUESTA DEL BACKEND ==========');
-      console.log('📥 Response status:', response.status, response.statusText);
-      console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()));
-      
-      const responseText = await response.text();
-      console.log('📥 Response raw text:', responseText);
-      
-      let data;
-      try {
-        data = JSON.parse(responseText);
-        console.log('📥 Response parsed JSON:', data);
-      } catch (parseError) {
-        console.error('❌ No es JSON válido:', responseText);
-        throw new Error(`Respuesta inválida del servidor: ${responseText.substring(0, 200)}`);
-      }
-      console.log('📥 ==========================================');
-
       if (!response.ok) {
-        throw new Error(data.message || `Error del servidor: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Error al procesar el CRT");
       }
+
+      const data = await response.json();
       
-      // ========== LOGGING EXTENSIVO DE RESPUESTA ==========
-      console.log('🔍 ========== RESPUESTA /extract COMPLETA ==========');
-      console.log('🔍 Success:', data.success);
-      console.log('🔍 Keys de la respuesta:', Object.keys(data));
-      console.log('🔍 Respuesta completa JSON:', JSON.stringify(data, null, 2));
-      
-      // Verificar ambas posibles estructuras de datos CRT
-      console.log('🔍 --- BUSCANDO DATOS CRT ---');
-      console.log('🔍 data.datos_crt (snake_case):', data.datos_crt);
-      console.log('🔍 data.crt_extracted:', data.crt_extracted);
+      console.log('🔍 ========== RESPUESTA EXTRACCIÓN CRT ==========');
+      console.log('🔍 Respuesta completa:', data);
       console.log('🔍 data.data:', data.data);
-      console.log('🔍 data.data?.crt_extracted:', data.data?.crt_extracted);
-      console.log('🔍 data.data?.datos_crt:', data.data?.datos_crt);
-      
-      // USAR LA ESTRUCTURA CORRECTA: datos_crt o crt_extracted
-      const crtData = data.datos_crt || data.crt_extracted || data.data?.crt_extracted || data.data?.datos_crt || {};
-      
-      console.log('🔍 --- DATOS CRT ENCONTRADOS ---');
-      console.log('🔍 crtData:', crtData);
-      console.log('🔍 Campos recibidos:', Object.keys(crtData));
-      
-      // Log de cada campo específico (USANDO NOMBRES PASCALCASE DEL BACKEND)
-      console.log('🔍 --- CAMPOS ESPECÍFICOS (PascalCase) ---');
-      console.log('🔍 NombreRemitente:', crtData.NombreRemitente);
-      console.log('🔍 DomicilioRemitente:', crtData.DomicilioRemitente);
-      console.log('🔍 NombreDestinatario:', crtData.NombreDestinatario);
-      console.log('🔍 DomicilioDestinatario:', crtData.DomicilioDestinatario);
-      console.log('🔍 NombreConsignatario:', crtData.NombreConsignatario);
-      console.log('🔍 DomicilioConsignatario:', crtData.DomicilioConsignatario);
-      console.log('🔍 DescripcionMercancias:', crtData.DescripcionMercancias);
-      console.log('🔍 PesoBruto:', crtData.PesoBruto);
-      console.log('🔍 CantidadBultos:', crtData.CantidadBultos);
-      console.log('🔍 TipoBultos:', crtData.TipoBultos);
-      console.log('🔍 Contenedor1:', crtData.Contenedor1);
-      console.log('🔍 Contenedor2:', crtData.Contenedor2);
-      console.log('🔍 NumeroCartaPorte:', crtData.NumeroCartaPorte);
-      console.log('🔍 NumeroPrecintos:', crtData.NumeroPrecintos);
-      console.log('🔍 DocumentosAnexos:', crtData.DocumentosAnexos);
-      console.log('🔍 DestinoFinal:', crtData.DestinoFinal);
-      console.log('🔍 CodigoDestinoFinal:', crtData.CodigoDestinoFinal);
+      console.log('🔍 --- crt_extracted (datos del CRT) ---');
+      console.log('🔍 crt_extracted:', data.crt_extracted);
+      console.log('🔍 crt_extracted.numero_bl:', data.crt_extracted?.numero_bl);
+      console.log('🔍 crt_extracted.numero_crt:', data.crt_extracted?.numero_crt);
+      console.log('🔍 crt_extracted.sellos:', data.crt_extracted?.sellos);
+      console.log('🔍 crt_extracted.documentos_anexos:', data.crt_extracted?.documentos_anexos);
+      console.log('🔍 crt_extracted.remitente_nombre:', data.crt_extracted?.remitente_nombre);
+      console.log('🔍 crt_extracted.destinatario_nombre:', data.crt_extracted?.destinatario_nombre);
+      console.log('🔍 crt_extracted.consignatario_nombre:', data.crt_extracted?.consignatario_nombre);
+      console.log('🔍 crt_extracted.descripcion_mercancia:', data.crt_extracted?.descripcion_mercancia);
       console.log('🔍 ================================================');
       
       if (data.success) {
-        setExtractedData(data.data || data);
+        setExtractedData(data.data);
         
         const numeroReferencia = generateRandomReference();
         
@@ -288,15 +221,19 @@ export function Step3OperationMode() {
           placaRemolque: micEntradaData.remolque?.placa || "",
           paisRemolque: micEntradaData.camion?.pais || "BO",
           nombreConductor: micEntradaData.conductor?.nombre || "",
+          // Mapear CI -> CI. porque el dropdown requiere el punto
           tipoIdConductor: micEntradaData.conductor?.tipo_id === "CI" ? "CI." : (micEntradaData.conductor?.tipo_id || ""),
           idConductor: micEntradaData.conductor?.identificador || "",
         } : {};
         
         console.log('🔍 DEBUG datosVehiculo:', datosVehiculo);
+        console.log('🔍 tipoIdConductor extraído (raw):', micEntradaData?.conductor?.tipo_id);
+        console.log('🔍 tipoIdConductor mapeado:', datosVehiculo.tipoIdConductor);
 
         // CONDICIONAL: Datos del propietario y rol2 según modo
         let datosPropietario;
         if (conApoyo && micEntradaData) {
+          // CON APOYO: Usar datos del MIC Entrada + rol2 con datos del propietario
           datosPropietario = {
             propietarioNombre: micEntradaData.propietario?.nombre || "",
             propietarioDomicilio: micEntradaData.propietario?.direccion || "",
@@ -305,10 +242,15 @@ export function Step3OperationMode() {
             propietarioPais: "BO",
             propietarioComuna: "",
             permisoResolucion: buildPermisoResolucion(micEntradaData),
+            // En CON APOYO: tipoIdentificador2 y rolContribuyente2 = datos del propietario del MIC
             tipoIdentificador2: "COD/NIT",
             rolContribuyente2: micEntradaData.propietario?.rol || "",
           };
+          console.log('🔍 GUARDADO CON APOYO:');
+          console.log('  - rolContribuyente2:', micEntradaData.propietario?.rol);
+          console.log('  - tipoIdentificador2: COD/NIT');
         } else {
+          // SIN APOYO: Usar datos del PORTEADOR (no hay rol2)
           datosPropietario = {
             propietarioNombre: selectedEmpresa.campo_1_porteador.nombre,
             propietarioDomicilio: selectedEmpresa.campo_1_porteador.domicilio,
@@ -317,92 +259,55 @@ export function Step3OperationMode() {
             propietarioPais: "CL",
             propietarioComuna: selectedEmpresa.campo_1_porteador.comuna,
             permisoResolucion: micEntradaData ? buildPermisoResolucion(micEntradaData) : "",
+            // En SIN APOYO: mantener los valores de la empresa (ya están en datosEmpresa)
           };
         }
 
-        // Datos extraídos del CRT - USANDO NOMBRES PASCALCASE DEL BACKEND
-        console.log('📝 ========== MAPEANDO CRT A FORMULARIO ==========');
-        console.log('📝 crtData objeto completo:', crtData);
-        console.log('📝 typeof crtData:', typeof crtData);
-        console.log('📝 crtData keys:', Object.keys(crtData || {}));
-        console.log('📝 crtData.NombreRemitente:', crtData.NombreRemitente);
-        console.log('📝 crtData.DescripcionMercancias:', crtData.DescripcionMercancias);
-        console.log('📝 crtData.PesoBruto:', crtData.PesoBruto);
-        console.log('📝 crtData.NumeroCartaPorte:', crtData.NumeroCartaPorte);
-        
+        console.log('🔍 Modo:', conApoyo ? 'CON APOYO' : 'SIN APOYO');
+        console.log('🔍 Datos propietario a guardar:', datosPropietario);
+
+        // Datos extraídos del CRT
         const datosCRT = {
-          numeroBl: crtData.DocumentosAnexos || '',
-          numeroPrecintos: crtData.NumeroPrecintos || '',
-          documentosAnexos: crtData.DocumentosAnexos || '',
-          remitenteNombre: crtData.NombreRemitente || '',
-          remitenteDomicilio: crtData.DomicilioRemitente || '',
-          destinatarioNombre: crtData.NombreDestinatario || '',
-          destinatarioDomicilio: crtData.DomicilioDestinatario || '',
-          consignatarioNombre: crtData.NombreConsignatario || '',
-          consignatarioDomicilio: crtData.DomicilioConsignatario || '',
-          descripcionMercancias: crtData.DescripcionMercancias || '',
-          cantidadBultos: String(crtData.CantidadBultos || ''),
-          tipoBultos: crtData.TipoBultos || '',
-          pesoBruto: String(crtData.PesoBruto || ''),
-          contenedor1: crtData.Contenedor1 || '',
-          contenedor2: crtData.Contenedor2 || '',
-          numeroCartaPorte: crtData.NumeroCartaPorte || '',
-          ciudadDestinoFinal: crtData.DestinoFinal || '',
-          ciudadDestinoCodigo: crtData.DestinoFinal || '',
-          ciudadDestinoCodigoNumerico: crtData.CodigoDestinoFinal || '',
+          numeroBl: data.crt_extracted?.numero_bl || '',
+          numeroPrecintos: data.crt_extracted?.sellos?.[0] || '',
+          documentosAnexos: data.crt_extracted?.documentos_anexos || '',
+          remitenteNombre: data.crt_extracted?.remitente_nombre || '',
+          remitenteDomicilio: data.crt_extracted?.remitente_domicilio || '',
+          destinatarioNombre: data.crt_extracted?.destinatario_nombre || '',
+          destinatarioDomicilio: data.crt_extracted?.destinatario_domicilio || '',
+          consignatarioNombre: data.crt_extracted?.consignatario_nombre || '',
+          consignatarioDomicilio: data.crt_extracted?.consignatario_domicilio || '',
+          descripcionMercancias: data.crt_extracted?.descripcion_mercancia || '',
+          cantidadBultos: String(data.crt_extracted?.bultos_cantidad || ''),
+          tipoBultos: data.crt_extracted?.bultos_tipo || '',
+          tipoBultosCodigo: data.crt_extracted?.bultos_tipo_codigo || '',
+          pesoBruto: String(data.crt_extracted?.peso_bruto || ''),
+          contenedor1: data.crt_extracted?.contenedores?.[0] || '',
+          contenedor2: data.crt_extracted?.contenedores?.[1] || '',
+          numeroCartaPorte: data.crt_extracted?.numero_crt || '',
+          origenMercanciasCodigo: data.crt_extracted?.remitente_pais || '',
+          aduanaDestinoCodigo: data.crt_extracted?.aduana_destino || '',
+          aduanaDestinoCodigoNumerico: data.crt_extracted?.aduana_destino_codigo || '',
+          // Nuevos campos del CRT
+          valorFot: data.crt_extracted?.valor_fot || '',
+          valorFlete: data.crt_extracted?.valor_flete || '',
         };
 
-        console.log('📝 datosCRT mapeado:', datosCRT);
-        console.log('📝 remitenteNombre después de mapear:', datosCRT.remitenteNombre);
-        console.log('📝 descripcionMercancias después de mapear:', datosCRT.descripcionMercancias);
-        console.log('📝 ================================================');
+        console.log('🔍 Datos CRT mapeados:', datosCRT);
 
-        console.log('🔍 ========== DATOS A GUARDAR EN FORMDATA ==========');
-        console.log('🔍 datosEmpresa:', datosEmpresa);
-        console.log('🔍 datosVehiculo:', datosVehiculo);
-        console.log('🔍 datosPropietario:', datosPropietario);
-        console.log('🔍 datosCRT:', datosCRT);
-        console.log('🔍 ================================================');
-
-        const datosCompletos = {
+        updateFormData({
           ...datosEmpresa,
           ...datosVehiculo,
           ...datosPropietario,
           ...datosCRT,
-        };
-        
-        console.log('🔍 ========== LLAMANDO updateFormData ==========');
-        console.log('🔍 Datos completos a guardar:', datosCompletos);
-        console.log('🔍 Claves en datosCompletos:', Object.keys(datosCompletos));
-        console.log('🔍 remitenteNombre en datosCompletos:', datosCompletos.remitenteNombre);
-        console.log('🔍 descripcionMercancias en datosCompletos:', datosCompletos.descripcionMercancias);
-        
-        // Verificar formData ANTES de actualizar
-        console.log('🔴 formData ANTES de updateFormData:', JSON.stringify(formData, null, 2));
-        
-        updateFormData(datosCompletos);
-        
-        console.log('✅ updateFormData ejecutado');
-        
+        });
+
         toast({
           title: "Extracción exitosa",
           description: `Datos extraídos. Referencia: ${numeroReferencia}`,
         });
         
-        // IMPORTANTE: Navegar a Step 4 en el siguiente tick para asegurar que el store se haya actualizado
-        // Esto soluciona el problema donde Step4 se montaba antes de que los datos estuvieran en el store
-        setTimeout(() => {
-          const storeState = useMicStore.getState();
-          console.log('🟢 === VERIFICACIÓN POST-UPDATE (setTimeout) ===');
-          console.log('🟢 formData DESPUÉS:', JSON.stringify(storeState.formData, null, 2));
-          console.log('🟢 remitenteNombre en store:', storeState.formData.remitenteNombre);
-          console.log('🟢 descripcionMercancias en store:', storeState.formData.descripcionMercancias);
-          console.log('🟢 pesoBruto en store:', storeState.formData.pesoBruto);
-          console.log('🟢 numeroBl en store:', storeState.formData.numeroBl);
-          
-          // Navegar a Step 4 DESPUÉS de que el store se actualizó
-          setCurrentStep(4);
-        }, 50);
+        setCurrentStep(4);
       } else {
         throw new Error(data.message || "Error en la respuesta del servidor");
       }
