@@ -253,6 +253,8 @@ export function Step3OperationMode() {
       console.log('🔍 DocumentosAnexos:', crtData.DocumentosAnexos);
       console.log('🔍 DestinoFinal:', crtData.DestinoFinal);
       console.log('🔍 CodigoDestinoFinal:', crtData.CodigoDestinoFinal);
+      console.log('🔍 ValorFOT:', crtData.ValorFOT);
+      console.log('🔍 ValorFlete:', crtData.ValorFlete);
       console.log('🔍 ================================================');
       
       if (data.success) {
@@ -329,6 +331,8 @@ export function Step3OperationMode() {
         console.log('📝 crtData.DescripcionMercancias:', crtData.DescripcionMercancias);
         console.log('📝 crtData.PesoBruto:', crtData.PesoBruto);
         console.log('📝 crtData.NumeroCartaPorte:', crtData.NumeroCartaPorte);
+      console.log('📝 crtData.ValorFOT:', crtData.ValorFOT);
+      console.log('📝 crtData.ValorFlete:', crtData.ValorFlete);
         
         const datosCRT = {
           numeroBl: crtData.DocumentosAnexos || '',
@@ -350,6 +354,8 @@ export function Step3OperationMode() {
           ciudadDestinoFinal: crtData.DestinoFinal || '',
           ciudadDestinoCodigo: crtData.DestinoFinal || '',
           ciudadDestinoCodigoNumerico: crtData.CodigoDestinoFinal || '',
+        valorFot: crtData.ValorFOT || '',
+        valorFlete: crtData.ValorFlete || '',
         };
 
         console.log('📝 datosCRT mapeado:', datosCRT);
