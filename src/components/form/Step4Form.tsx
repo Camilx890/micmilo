@@ -529,6 +529,18 @@ export function Step4Form() {
         </div>
       </div>
 
+      {/* Reminder Note */}
+      <div className="container mx-auto px-4 pt-4">
+        <div className="rounded-lg border border-warning/50 bg-warning/10 p-3 text-sm text-foreground">
+          <p className="font-semibold mb-1">⚠️ Mamá, cuidado con:</p>
+          <ol className="list-decimal list-inside space-y-0.5 text-muted-foreground">
+            <li>Código aduana destino</li>
+            <li>Código país origen mercancía</li>
+            <li>Contenedor N°2</li>
+          </ol>
+        </div>
+      </div>
+
       {/* Main Form Area */}
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
