@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMicStore } from "@/store/micStore";
 import dropdownsConfig from "@/data/dropdowns_config.json";
-
+import { ISO_TO_CHILE_CODE } from "@/data/isoToChileCode";
 import {
   Building2,
   FileText,
@@ -769,10 +769,10 @@ export function FormSections() {
             <Select
               value={formData.origenMercancias}
               onValueChange={(value) => {
-                const pais = paises.find((p) => p.codigo === value);
                 updateFormData({
                   origenMercancias: value,
                   origenMercanciasCodigo: value,
+                  codigoOrigenMercancias: ISO_TO_CHILE_CODE[value] || formData.codigoOrigenMercancias,
                 });
               }}
             >
