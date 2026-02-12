@@ -199,7 +199,7 @@ const initialFormData: FormData = {
   contenedor1: '',
   contenedor2: '',
   hojaFolha: '1/1',
-  fechaEmision: new Date().toISOString().split('T')[0],
+  fechaEmision: new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Santiago' })).toISOString().split('T')[0],
   // Aduana de partida - FIJO: Chile - Iquique
   aduanaPartidaCodigo: 'CLIQQ',
   aduanaPartidaDescripcion: 'Chile - Iquique',
