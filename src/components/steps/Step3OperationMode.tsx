@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 import dropdownsConfig from "@/data/dropdowns_config.json";
+import { ISO_TO_CHILE_CODE } from "@/data/isoToChileCode";
 
 /** Resuelve nombre de país en español (ej "CHINA") al código ISO (ej "CN") */
 function resolveCountryCode(name?: string): string {
