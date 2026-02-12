@@ -6,6 +6,17 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
+import dropdownsConfig from "@/data/dropdowns_config.json";
+
+/** Resuelve nombre de país en español (ej "CHINA") al código ISO (ej "CN") */
+function resolveCountryCode(name?: string): string {
+  if (!name) return '';
+  const upper = name.toUpperCase().trim();
+  const match = dropdownsConfig.dropdowns.paises.find(
+    (p) => p.nombre.toUpperCase() === upper
+  );
+  return match?.codigo || name;
+}
 
 const MESES: Record<string, string> = {
   'ENE': '01', 'FEB': '02', 'MAR': '03', 'ABR': '04',
@@ -379,6 +390,9 @@ export function Step3OperationMode() {
         valorFot: crtData.ValorFOT || '',
         valorFlete: crtData.ValorFlete || '',
         fechaEmision: parseFechaEmisionCRT(crtData.fecha_emision),
+        origenMercancias: resolveCountryCode(crtData.OrigenMercanciasPais),
+        origenMercanciasCodigo: resolveCountryCode(crtData.OrigenMercanciasPais),
+        codigoOrigenMercancias: crtData.OrigenMercanciasCodigo || '',
         };
 
         console.log('📝 datosCRT mapeado:', datosCRT);

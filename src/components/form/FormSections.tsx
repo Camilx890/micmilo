@@ -769,6 +769,7 @@ export function FormSections() {
             <Select
               value={formData.origenMercancias}
               onValueChange={(value) => {
+                const pais = paises.find((p) => p.codigo === value);
                 updateFormData({
                   origenMercancias: value,
                   origenMercanciasCodigo: value,
@@ -788,14 +789,23 @@ export function FormSections() {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="codigoOrigenMercancias">Código Origen Mercancías</Label>
+            <Label htmlFor="codigoOrigenMercancias" className="flex items-center gap-2">
+              Código Origen Mercancías
+              {formData.codigoOrigenMercancias && (
+                <Lock className="w-3 h-3 text-muted-foreground" />
+              )}
+            </Label>
             <Input
               id="codigoOrigenMercancias"
               value={formData.codigoOrigenMercancias || ''}
               onChange={(e) => updateFormData({ codigoOrigenMercancias: e.target.value })}
               placeholder="Ingrese código"
-              className="font-mono"
+              className={`font-mono ${formData.codigoOrigenMercancias ? 'bg-muted cursor-not-allowed' : ''}`}
+              disabled={!!formData.codigoOrigenMercancias}
             />
+            {formData.codigoOrigenMercancias && (
+              <p className="text-xs text-muted-foreground">Extraído del CRT</p>
+            )}
           </div>
         </div>
       </SectionCard>
