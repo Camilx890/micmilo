@@ -7,6 +7,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 
+const MESES: Record<string, string> = {
+  'ENE': '01', 'FEB': '02', 'MAR': '03', 'ABR': '04',
+  'MAY': '05', 'JUN': '06', 'JUL': '07', 'AGO': '08',
+  'SEP': '09', 'OCT': '10', 'NOV': '11', 'DIC': '12',
+};
+
+/** Convierte "DD-MMM-YYYY" (ej "11-DIC-2025") a "YYYY-MM-DD" para el input date */
+function parseFechaEmisionCRT(raw?: string): string {
+  if (!raw || typeof raw !== 'string') {
+    return new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Santiago' }))
+      .toISOString().split('T')[0];
+  }
+  const parts = raw.trim().split('-');
+  if (parts.length === 3) {
+    const [dd, mmm, yyyy] = parts;
+    const mm = MESES[mmm.toUpperCase()];
+    if (mm) return `${yyyy}-${mm}-${dd.padStart(2, '0')}`;
+  }
+  return raw;
+}
+
 const API_BASE_URL = "https://api.xn--salteeriamaria-unb.com:9443";
 const N8N_WEBHOOK_URL = "https://n8n-n8n.qenbep.easypanel.host/webhook/extract-mic-entrada";
 
@@ -255,6 +276,7 @@ export function Step3OperationMode() {
       console.log('🔍 CodigoDestinoFinal:', crtData.CodigoDestinoFinal);
       console.log('🔍 ValorFOT:', crtData.ValorFOT);
       console.log('🔍 ValorFlete:', crtData.ValorFlete);
+      console.log('🔍 fecha_emision:', crtData.fecha_emision);
       console.log('🔍 ================================================');
       
       if (data.success) {
@@ -356,6 +378,7 @@ export function Step3OperationMode() {
           ciudadDestinoCodigoNumerico: crtData.CodigoDestinoFinal || '',
         valorFot: crtData.ValorFOT || '',
         valorFlete: crtData.ValorFlete || '',
+        fechaEmision: parseFechaEmisionCRT(crtData.fecha_emision),
         };
 
         console.log('📝 datosCRT mapeado:', datosCRT);
