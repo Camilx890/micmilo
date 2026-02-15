@@ -125,7 +125,7 @@ export function Step4Form() {
     const xmlData = {
       // ========== CAMPOS RAÍZ ==========
       'permiso_resolucion': permisoResolucion,
-      'impr_aduana_destino': formData.aduanaDestinoCodigoNumerico || '',
+'impr_aduana_destino': '221',
       'tipo_manifiesto': 'S',
       'login': selectedEmpresa?.login || '',
       'numero_aduana_origen': '',
@@ -304,7 +304,7 @@ export function Step4Form() {
           'deposito_fiscal': formData.aduanaDestinoDepositoNombre || '',
           'codigo_deposito': formData.aduanaDestinoDepositoCodigo || '',
           'moneda': formData.moneda || 'USD',
-          'valor_seguro': formData.valorSeguro || '0.1',
+          'valor_seguro': formData.valorSeguro || '0',
           'parcial': formData.esParcial === 'Si' ? 'S' : 'N',
           'valor_fot': formData.valorFot || '0.1',
           'dato_imprimir': formData.aduanaDestinoCodigoNumerico || '',
