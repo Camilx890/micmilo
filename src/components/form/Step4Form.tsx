@@ -194,9 +194,9 @@ export function Step4Form() {
           'tipo_id': 'RUT',
           'tipo_id2': '',
           'codigo_comuna': '',
-          'codigo_pais': 'CL',
-          'nacion_id': 'CL',
-          'nombre_pais': 'Chile',
+          'codigo_pais': selectedEmpresa?.campo_1_porteador?.pais || 'CL',
+          'nacion_id': selectedEmpresa?.campo_1_porteador?.pais || 'CL',
+          'nombre_pais': selectedEmpresa?.campo_1_porteador?.pais_nombre || 'Chile',
           'nombre': 'EMI'
         },
         // EMIDO - CON APOYO: agrega valor_id2 y tipo_id2 del propietario
@@ -209,9 +209,9 @@ export function Step4Form() {
           'tipo_id': formData.tipoIdentificador || 'RUT',
           'tipo_id2': conApoyo ? 'COD/NIT' : '',
           'codigo_comuna': '',
-          'codigo_pais': 'CL',
-          'nacion_id': 'CL',
-          'nombre_pais': 'Chile',
+          'codigo_pais': selectedEmpresa?.campo_1_porteador?.pais || 'CL',
+          'nacion_id': selectedEmpresa?.campo_1_porteador?.pais || 'CL',
+          'nombre_pais': selectedEmpresa?.campo_1_porteador?.pais_nombre || 'Chile',
           'nombre': 'EMIDO'
         },
         // PROP - Siempre usa formData.propietarioXXX primero, con fallback según modo
