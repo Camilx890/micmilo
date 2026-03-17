@@ -8,6 +8,39 @@ import { Download, Loader2, Ship, FileSpreadsheet, FileText, Building2, Settings
 import { StepIndicator } from "@/components/StepIndicator";
 import dropdownsConfig from "@/data/dropdowns_config.json";
 
+// Mapeo de empresa_id → value para el backend
+const EMPRESA_VALUE_MAP: Record<string, string> = {
+  "empresa_01": "ACIEN",
+  "empresa_02": "PACOHNOS",
+  "empresa_03": "COOP. DE TRANSPORTES FRONTERIZO KACHI LAGUNA R.L.",
+  "empresa_04": "ELEADERL",
+  "empresa_05": "TRANSUNIDOS",
+  "empresa_06": "ETIVACO",
+  "empresa_07": "INPACKTO",
+  "empresa_08": "JIMBERTRANS",
+  "empresa_09": "KORIKOTA",
+  "empresa_10": "TERRASRL",
+  "empresa_11": "TOBYMARTRANS",
+  "empresa_12": "TCAPSAYA",
+  "empresa_13": "TFORMANI",
+  "empresa_14": "TGEDEONSRL",
+  "empresa_15": "TRANSRAYBEMIC",
+  "empresa_16": "TRANSKATALIN",
+  "empresa_17": "TRANSPAGADOR",
+  "empresa_18": "TRANSPROART",
+  "empresa_19": "TAMARUGALSRL",
+  "empresa_20": "2DESEPT",
+  "empresa_21": "TA&G",
+  "empresa_22": "TGSLSRL",
+  "empresa_23": "ESORIANO",
+  "empresa_24": "4DEABRIL",
+  "empresa_25": "CUESTASRL",
+  "empresa_26": "UNICARGO SRL",
+  "empresa_27": "CBM",
+  "empresa_28": "mchallapa",
+  "empresa_29": "ychallapal",
+};
+
 // Helper para extraer nombre de ciudad del código de aduana
 function getNombreCiudad(codigoAduana: string): string {
   if (!codigoAduana) return '';
@@ -124,7 +157,7 @@ export function Step4Form() {
 
     const xmlData = {
       // ========== CAMPOS RAÍZ ==========
-      'empresa': selectedEmpresa?.id || '',
+      'empresa': EMPRESA_VALUE_MAP[selectedEmpresa?.id || ''] || selectedEmpresa?.id || '',
       'permiso_resolucion': permisoResolucion,
 'impr_aduana_destino': '221',
       'tipo_manifiesto': 'S',
