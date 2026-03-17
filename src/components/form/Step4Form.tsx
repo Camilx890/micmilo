@@ -425,15 +425,20 @@ export function Step4Form() {
         throw new Error(errorText || 'Error al generar XML');
       }
 
-      // 4. El backend retorna el archivo XML
-      const blob = await response.blob();
-      console.log('📄 Blob recibido:', { size: blob.size, type: blob.type });
+      // 4. El backend retorna JSON con xml_content
+      const data = await response.json();
+      console.log('📄 Respuesta:', { success: data.success, filename: data.xml_filename });
 
-      // 5. Descargar automáticamente
+      if (!data.success || !data.xml_content) {
+        throw new Error(data.error || 'No se recibió contenido XML');
+      }
+
+      // 5. Descargar el xml_content como archivo XML
+      const blob = new Blob([data.xml_content], { type: 'application/xml' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `MIC_${formData.numeroReferencia || Date.now()}.xml`;
+      a.download = data.xml_filename || `MIC_${formData.numeroReferencia || Date.now()}.xml`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
