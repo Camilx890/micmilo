@@ -40,7 +40,7 @@ function parseFechaEmisionCRT(raw?: string): string {
   return raw;
 }
 
-const API_BASE_URL = "https://api.xn--salteeriamaria-unb.com:9443";
+const API_BASE_URL = "http://72.60.13.178:8000";
 const N8N_WEBHOOK_URL = "https://n8n-n8n.qenbep.easypanel.host/webhook/extract-mic-entrada";
 
 export function Step3OperationMode() {
