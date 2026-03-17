@@ -157,7 +157,7 @@ export function Step4Form() {
 
     const xmlData = {
       // ========== CAMPOS RAÍZ ==========
-      'empresa': selectedEmpresa?.id || '',
+      'empresa': EMPRESA_VALUE_MAP[selectedEmpresa?.id || ''] || selectedEmpresa?.id || '',
       'permiso_resolucion': permisoResolucion,
 'impr_aduana_destino': '221',
       'tipo_manifiesto': 'S',
