@@ -49,7 +49,7 @@ export function FormSidebar() {
     setIsGenerating(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/generate-xml`, {
+      const response = await fetch(`${API_BASE_URL}/api/mic/generar-xml`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
