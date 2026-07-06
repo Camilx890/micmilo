@@ -399,7 +399,7 @@ export function Step4Form() {
     setIsGenerating(true);
     setLoadingMessage("Generando XML...");
 
-    const backendUrl = 'https://api.xn--salteeriamaria-unb.com:9443/api/mic/generar-xml';
+    const backendUrl = 'https://api.xn--salteeriamaria-unb.com/api/mic/generar-xml';
     
     console.log('🔍 === DATOS ENVIADOS AL BACKEND ===');
     console.log('xmlData completo:', JSON.stringify(xmlData, null, 2));
