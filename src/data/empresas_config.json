@@ -99,7 +99,7 @@
     {
       "id": "empresa_04",
       "login": "ychallapal",
-      "nombre_display": "COOP. DE TRANSPORTES FRONTERIZO KACHI LAGUNA R.L.",
+      "nombre_display": "KACHI LAGUNA R.L.",
       "campo_1_porteador": {
         "nombre": "COOP. DE TRANSPORTES FRONTERIZO KACHI LAGUNA R.L.",
         "pais": "BO",
@@ -128,7 +128,7 @@
     {
       "id": "empresa_05",
       "login": "ychallapal",
-      "nombre_display": "EMPRESA DE TRANSPORTE LEADER LOGISTIC S.R.L.",
+      "nombre_display": "LEADER LOGISTIC S.R.L.",
       "campo_1_porteador": {
         "nombre": "EMPRESA DE TRANSPORTE LEADER LOGISTIC S.R.L.",
         "pais": "BO",
@@ -157,7 +157,7 @@
     {
       "id": "empresa_06",
       "login": "ychallapal",
-      "nombre_display": "EMPRESA DE TRANSPORTE NACIONAL E INTERNACIONAL POR CARRETERA UNIDOS 10 DE NOVIEMBRE LTDA.",
+      "nombre_display": "UNIDOS 10 DE NOV. LTDA.",
       "campo_1_porteador": {
         "nombre": "EMPRESA DE TRANSPORTE NACIONAL E INTERNACIONAL POR CARRETERA UNIDOS 10 DE NOVIEMBRE LTDA.",
         "pais": "BO",
@@ -592,7 +592,7 @@
     {
       "id": "empresa_21",
       "login": "ychallapal",
-      "nombre_display": "TRANSPORTE INTERNACIONAL TAMARUGAL SRL",
+      "nombre_display": "TAMARUGAL SRL",
       "campo_1_porteador": {
         "nombre": "TRANSPORTE INTERNACIONAL TAMARUGAL SRL",
         "pais": "BO",
@@ -621,7 +621,7 @@
     {
       "id": "empresa_22",
       "login": "ychallapal",
-      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL 2 DE SEPTIEMBRE SRL",
+      "nombre_display": "2 DE SEPTIEMBRE SRL",
       "campo_1_porteador": {
         "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL 2 DE SEPTIEMBRE SRL",
         "pais": "BO",
@@ -650,7 +650,7 @@
     {
       "id": "empresa_23",
       "login": "ychallapal",
-      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL A&G SRL",
+      "nombre_display": "A&G SRL",
       "campo_1_porteador": {
         "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL A&G SRL",
         "pais": "BO",
@@ -679,7 +679,7 @@
     {
       "id": "empresa_24",
       "login": "ychallapal",
-      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL GSL SRL",
+      "nombre_display": "GSL SRL",
       "campo_1_porteador": {
         "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL GSL SRL",
         "pais": "BO",
@@ -708,7 +708,7 @@
     {
       "id": "empresa_25",
       "login": "ychallapal",
-      "nombre_display": "TRANSPORTE NACIONAL E INTERNACIONAL SORIANO LTDA",
+      "nombre_display": "SORIANO LTDA",
       "campo_1_porteador": {
         "nombre": "TRANSPORTE NACIONAL E INTERNACIONAL SORIANO LTDA",
         "pais": "BO",
@@ -882,7 +882,7 @@
     {
       "id": "empresa_31",
       "login": "ychallapal",
-      "nombre_display": "TRANSPORTE & LOGISTICA \"VELOCI CARGA S.R.L\"",
+      "nombre_display": "VELOCI CARGA S.R.L.",
       "campo_1_porteador": {
         "nombre": "TRANSPORTE & LOGISTICA \"VELOCI CARGA S.R.L\"",
         "pais": "BO",
@@ -911,7 +911,7 @@
     {
       "id": "empresa_32",
       "login": "LARAYA",
-      "nombre_display": "TRANSPORTE COVEIZTRUCK S.R.L",
+      "nombre_display": "COVEIZTRUCK S.R.L.",
       "campo_1_porteador": {
         "nombre": "TRANSPORTE COVEIZTRUCK S.R.L",
         "pais": "BO",
@@ -940,7 +940,7 @@
     {
       "id": "empresa_33",
       "login": "MQUISPE",
-      "nombre_display": "TRANSPORTES P&R SERVICIOS Y LOGISTICA LIMITADA",
+      "nombre_display": "P&R LOGISTICA LTDA.",
       "campo_1_porteador": {
         "nombre": "TRANSPORTES P&R SERVICIOS Y LOGISTICA LIMITADA",
         "pais": "CL",
@@ -951,6 +951,35 @@
       "campo_2_rol_contribuyente": {
         "tipo_id": "RUT",
         "valor_id": "76754197-K",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_34",
+      "login": "egarcia",
+      "nombre_display": "SILTRANSPORT SRL",
+      "campo_1_porteador": {
+        "nombre": "SILTRANSPORT SRL",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV.AVENIDA ALAMEDA JUNIN, NRO. 427 BARRIO PALERMO UV.012 MZA 007, ENTRE PRIMER Y SEGUNDO ANILLO DE LA AVENIDA 26 DE FEBRERO ENTRANDO UNA CUADRA Y MEDIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "349005027",
         "tipo_id2": "",
         "valor_id2": ""
       },
