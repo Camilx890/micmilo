@@ -849,6 +849,122 @@
         "remonta": "N",
         "sentido-operacion": "S"
       }
+    },
+    {
+      "id": "empresa_30",
+      "login": "ychallapal",
+      "nombre_display": "ARRIVARE S.R.L",
+      "campo_1_porteador": {
+        "nombre": "ARRIVARE S.R.L",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE SIN NOMBRE, N° S/N, ZONA CAMBODROMO, UV: OPI MZA 054, ZONA CAMBODROMO ENTRE 6TO Y 7MO ANILLO, AL LADO DE LA CERVECERIA POTOSINA, SANTA CRUZ"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "414943023",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_31",
+      "login": "ychallapal",
+      "nombre_display": "TRANSPORTE & LOGISTICA \"VELOCI CARGA S.R.L\"",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTE & LOGISTICA \"VELOCI CARGA S.R.L\"",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "URBANIZACIÓN TUSEQUIAL, CALLE S/N, WARNES, SANTA CRUZ, BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "689140024",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_32",
+      "login": "LARAYA",
+      "nombre_display": "TRANSPORTE COVEIZTRUCK S.R.L",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTE COVEIZTRUCK S.R.L",
+        "pais": "BO",
+        "pais_nombre": "Bolivia",
+        "comuna": "[Sin Información]",
+        "domicilio": "CALLE COLOMBIA, NRO. S/N ZONA CATACHILLA N-351354 C-51028002100, EL ALTO - LA PAZ, BOLIVIA"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "COD/NIT",
+        "valor_id": "568362027",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
+    },
+    {
+      "id": "empresa_33",
+      "login": "MQUISPE",
+      "nombre_display": "TRANSPORTES P&R SERVICIOS Y LOGISTICA LIMITADA",
+      "campo_1_porteador": {
+        "nombre": "TRANSPORTES P&R SERVICIOS Y LOGISTICA LIMITADA",
+        "pais": "CL",
+        "pais_nombre": "Chile",
+        "comuna": "[Sin Información]",
+        "domicilio": "AV LAS AMERICAS 3951, ALTO HOSPICIO"
+      },
+      "campo_2_rol_contribuyente": {
+        "tipo_id": "RUT",
+        "valor_id": "76754197-K",
+        "tipo_id2": "",
+        "valor_id2": ""
+      },
+      "datos_xml": {
+        "tipo-manifiesto": "S",
+        "tipo-carga": "Carga General",
+        "tipo-transito": "Transito",
+        "moneda": "USD",
+        "carga-peligrosa": "N",
+        "id-sender": "MIC-DTA 1.0",
+        "lastre": "N",
+        "remonta": "N",
+        "sentido-operacion": "S"
+      }
     }
   ]
 }
