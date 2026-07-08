@@ -39,6 +39,10 @@ const EMPRESA_VALUE_MAP: Record<string, string> = {
   "empresa_27": "CBM",
   "empresa_28": "mchallapa",
   "empresa_29": "ychallapal",
+  "empresa_30": "ARRIVARE",
+  "empresa_31": "VELOCI",
+  "empresa_32": "COVEIZTRUCK",
+  "empresa_33": "P&R",
 };
 
 // Helper para extraer nombre de ciudad del código de aduana
