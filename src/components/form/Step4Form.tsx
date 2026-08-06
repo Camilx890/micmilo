@@ -6,7 +6,9 @@ import { useMicStore } from "@/store/micStore";
 import { toast } from "sonner";
 import { Download, Loader2, Ship, FileSpreadsheet, FileText, Building2, Settings2, RotateCcw, Edit2, CheckCircle2, AlertTriangle } from "lucide-react";
 import { StepIndicator } from "@/components/StepIndicator";
+import { API_BASE_URL } from "@/lib/api-config";
 import dropdownsConfig from "@/data/dropdowns_config.json";
+
 
 // Mapeo de empresa_id → value para el backend
 const EMPRESA_VALUE_MAP: Record<string, string> = {
@@ -404,7 +406,7 @@ export function Step4Form() {
     setIsGenerating(true);
     setLoadingMessage("Generando XML...");
 
-    const backendUrl = 'https://mic-api.qenbep.easypanel.host/api/mic/generar-xml';
+    const backendUrl = `${API_BASE_URL}/api/mic/generar-xml`;
     
     console.log('🔍 === DATOS ENVIADOS AL BACKEND ===');
     console.log('xmlData completo:', JSON.stringify(xmlData, null, 2));
