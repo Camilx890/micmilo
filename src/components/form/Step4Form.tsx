@@ -406,7 +406,7 @@ export function Step4Form() {
     setIsGenerating(true);
     setLoadingMessage("Generando XML...");
 
-    const backendUrl = 'https://mic-api.qenbep.easypanel.host/api/mic/generar-xml';
+    const backendUrl = `${API_BASE_URL}/api/mic/generar-xml`;
     
     console.log('🔍 === DATOS ENVIADOS AL BACKEND ===');
     console.log('xmlData completo:', JSON.stringify(xmlData, null, 2));
