@@ -12,10 +12,10 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { API_BASE_URL } from "@/lib/api-config";
 import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE_URL = "https://mic-api.qenbep.easypanel.host";
 
 export function FormSidebar() {
   const {

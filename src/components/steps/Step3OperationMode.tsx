@@ -8,6 +8,8 @@ import { useMicStore } from "@/store/micStore";
 import { useToast } from "@/hooks/use-toast";
 import dropdownsConfig from "@/data/dropdowns_config.json";
 import { ISO_TO_CHILE_CODE } from "@/data/isoToChileCode";
+import { API_BASE_URL } from "@/lib/api-config";
+
 
 /** Resuelve nombre de país en español (ej "CHINA") al código ISO (ej "CN") */
 function resolveCountryCode(name?: string): string {
